@@ -1,3 +1,4 @@
 # Vim
 
-My Vim related stuff.
+My Vim related stuff. Use at your own risk.
+
