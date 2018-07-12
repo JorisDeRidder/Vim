@@ -13,7 +13,6 @@ Plugin 'junegunn/gv.vim'                           " More Git functionality
 Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, even fuzzily
 Plugin 'vim-airline/vim-airline'                   " To have a colorful status line
 Plugin 'airblade/vim-gitgutter'                    " Shows changes in gutter in files tracked by git
-Plugin 'terryma/vim-multiple-cursors'              " Multiple cursurs like in Sublime Text
 Plugin 'ervandew/supertab'                         " Required to make ultisnips and YCM work together better
 Plugin 'SirVer/ultisnips'                          " Customisable snippets
 Plugin 'lervag/vimtex'                             " LaTeX plugin
@@ -24,6 +23,8 @@ Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-se
 Plugin 'easymotion/vim-easymotion'                 " Enhances motion throughout the text
 Plugin 'altercation/vim-colors-solarized'          " The Solarized color scheme
 Plugin 'mbbill/undotree'                           " To visualize the undo tree
+Plugin 'vim-scripts/argtextobj.vim'                " Text object for function arguments
+Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
 
 call vundle#end()
 
