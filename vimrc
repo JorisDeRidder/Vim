@@ -23,6 +23,7 @@ Plugin 'Valloric/YouCompleteMe'                    " Code completer and syntax c
 Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-separated value files
 Plugin 'easymotion/vim-easymotion'                 " Enhances motion throughout the text
 Plugin 'altercation/vim-colors-solarized'          " The Solarized color scheme
+Plugin 'mbbill/undotree'                           " To visualize the undo tree
 
 call vundle#end()
 
@@ -177,3 +178,40 @@ command! -range Vr normal! <line1>GV<line2>G
 " opening git objects.
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
+
+" Undotree saves files with undo information to make the undo feature persistent
+" even when the file was closed and reopened. Make sure that this undo info is
+" not saved in the local folder but is centralized in one undo directory.
+
+if has("persistent_undo")
+    set undodir=~/.vim/undodir/
+    set undofile
+endif
+
+" When toggling the undotree, put the window on the left
+" Further options are 1, 2, 3, 4.
+
+if !exists('g:undotree_WindowLayout')
+    let g:undotree_WindowLayout = 1
+endif
+
+if !exists('g:undotree_DiffAutoOpen')
+    let g:undotree_DiffAutoOpen = 1
+endif
+
+" Shorten the undo information, e.g. 'd' instead of 'days'.
+
+if !exists('g:undotree_ShortIndicators')
+    let g:undotree_ShortIndicators = 1
+endif
+
+" Specify the width of the undo windows
+
+if !exists('g:undotree_SplitWidth')
+    let g:undotree_SplitWidth = 22
+endif
+
+if !exists('g:undotree_DiffpanelHeight')
+    let g:undotree_DiffpanelHeight = 10
+endif
+
