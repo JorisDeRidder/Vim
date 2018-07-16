@@ -100,9 +100,13 @@ let g:EasyMotion_smartcase = 1                     " Make easymotion case-insens
 ":set lcs+=space:⋅                                 " Show each space as a tiny dot. Only for recent enough vim
 ":set lcs+=tab:‣‣                                  " Show each tab as a triangle. Only for recent enough vim 
 
-" Map Ctrl-q to a buffer list in which you can scroll and select
+" Map Ctrl-q to a file/buffer/mru list in which you can scroll and select
 
 map <c-q> :CtrlPBuffer<cr>
+
+" Map shift-enter to insert an empty line in command mode
+
+nmap <S-Enter> o<Esc>
 
 " Return to last edit position when opening files
 
