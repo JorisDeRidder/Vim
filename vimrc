@@ -108,6 +108,10 @@ map <c-q> :CtrlPBuffer<cr>
 
 nmap <S-Enter> o<Esc>
 
+" Map shift-space to insert one space in command mode
+
+nmap <S-Space> i <Esc>
+
 " Return to last edit position when opening files
 
 autocmd BufReadPost *
