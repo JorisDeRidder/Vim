@@ -12,6 +12,7 @@ Plugin 'tpope/vim-fugitive'                        " Git interface of Tim Pope
 Plugin 'junegunn/gv.vim'                           " More Git functionality
 Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, even fuzzily
 Plugin 'vim-airline/vim-airline'                   " To have a colorful status line
+Plugin 'vim-airline/vim-airline-themes'            " To choose a specific theme for the status line
 Plugin 'airblade/vim-gitgutter'                    " Shows changes in gutter in files tracked by git
 Plugin 'ervandew/supertab'                         " Required to make ultisnips and YCM work together better
 Plugin 'SirVer/ultisnips'                          " Customisable snippets
@@ -31,6 +32,9 @@ call vundle#end()
 set background=dark                                " Either 'dark' or 'light'
 colorscheme solarized                              " Set the proper color scheme
 set guifont=Andale\ Mono:h13                       " Font and font size
+
+let g:airline_theme='solarized'                    " Apply the solarized theme to the status line
+let g:airline_solarized_bg='dark'                  " 
 
 filetype plugin indent on                          " Set automatic indentation for the plugin files
 set nocompatible                                   " No compatibility with vim
