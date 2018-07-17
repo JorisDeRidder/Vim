@@ -70,6 +70,11 @@ set foldmethod=indent                              " Use indentation to decide h
 set foldlevel=99                                   " No folding at all when opening a file
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣    " List all white space characters. Show with :set list
 
+let g:airline#extensions#tabline#enabled = 1                 " Show a tab bar at the top with buffers
+let g:airline#extensions#tabline#left_sep = ' '              " Left separator between buffer names in the tab line
+let g:airline#extensions#tabline#left_alt_sep = '>'          " Right separator between buffer names in the tab line
+let g:airline#extensions#tabline#formatter = 'unique_tail'   " Only show file names, not path information in the tab line
+
 let g:netrw_banner = 0                             " No banner when showing a folder contents with netrw
 let g:netrw_browse_split = 4                       " Netrw opens files in existing window
 let g:netrw_liststyle = 3                          " Use a tree style listing
@@ -107,6 +112,11 @@ let g:EasyMotion_smartcase = 1                     " Make easymotion case-insens
 " Map Ctrl-q to a file/buffer/mru list in which you can scroll and select
 
 map <c-q> :CtrlPBuffer<cr>
+
+" Maps to cycle through listed buffers
+
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
 
 " Map shift-enter to insert an empty line in command mode
 
