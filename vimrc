@@ -113,10 +113,14 @@ let g:EasyMotion_smartcase = 1                     " Make easymotion case-insens
 
 map <c-q> :CtrlPBuffer<cr>
 
-" Maps to cycle through listed buffers
+" In normal mode, define a mapping to cycle through listed buffers
 
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
+
+" In visual mode, use ctrl-c to copy the selection to the clipboard
+
+vnoremap <C-c> :w !pbcopy<CR><CR>
 
 " Map shift-enter to insert an empty line in command mode
 
@@ -155,14 +159,6 @@ set wildignore+=*.pyc                            " Python byte code
 " insert mode). 
 
 set whichwrap+=<,>,h,l,[,]
-
-
-" Make sure the background color of folded areas is no different from the
-" normal background. This makes .otl files from vimoutliner a lot prettier.
-" Color 220 = Gold1 = RGB(255,215,0)
-
-":highlight Folded ctermfg=220 ctermbg=None guifg=gold guibg=None
-
 
 " Set some specific settings only for MacVim
 
