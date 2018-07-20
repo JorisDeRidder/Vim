@@ -119,9 +119,12 @@ map <c-q> :CtrlPBuffer<cr>
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
-" In visual mode, use ctrl-c to copy the selection to the clipboard
+" In visual mode, use ctrl-c to copy the selection to the clipboard.
+" The '<,'>B construct is to copy only the selection instead of the 
+" entire line (which, strangely, is Vim's default behaviour, no matter
+" what you select). The '<,'>B construct works thanks to the vis plugin.
 
-vnoremap <C-c> :w !pbcopy<CR><CR>
+vnoremap <C-c> :'<,'>B write !pbcopy<CR><CR>
 
 " Map shift-enter to insert an empty line in command mode
 
