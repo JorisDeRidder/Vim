@@ -85,7 +85,9 @@ let g:ycm_min_num_of_chars_for_completion = 3      " Don't attempt to complete b
 let g:ycm_confirm_extra_conf = 0                   " Don't ask for confirmation to load the .ycm_extra_conf.py file                   
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']     " how to navigate down in popup menu
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']     " How to navigate up in popup menu
+let g:ycm_add_preview_to_completeopt = 1                       " Show the preview window at the top
 let g:ycm_autoclose_preview_window_after_completion = 1        " Get rid of the preview window after tab-complete           
+let g:ycm_use_ultisnips_completer = 1                          " Use UltiSnips for completing snippet triggers
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
 let g:UltiSnipsExpandTrigger="<C-z>"               " Expand snippet
