@@ -22,18 +22,17 @@ Plugin 'majutsushi/tagbar'                         " Shows a list of tags in a t
 Plugin 'Valloric/YouCompleteMe'                    " Code completer and syntax checker
 Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-separated value files
 Plugin 'easymotion/vim-easymotion'                 " Enhances motion throughout the text
-Plugin 'altercation/vim-colors-solarized'          " The Solarized color scheme
+Plugin 'Nequo/vim-allomancer'                      " The Solarized color scheme
 Plugin 'mbbill/undotree'                           " To visualize the undo tree
 Plugin 'vim-scripts/argtextobj.vim'                " Text object for function arguments
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
 
 call vundle#end()
 
-set background=dark                                " Either 'dark' or 'light'
-colorscheme solarized                              " Set the proper color scheme
+colorscheme allomancer                             " Set the proper color scheme
 set guifont=Andale\ Mono:h13                       " Font and font size
 
-let g:airline_theme='solarized'                    " Apply the solarized theme to the status line
+let g:airline_theme='distinguished'                " Apply the solarized theme to the status line
 let g:airline_solarized_bg='dark'                  " 
 
 filetype plugin indent on                          " Set automatic indentation for the plugin files
