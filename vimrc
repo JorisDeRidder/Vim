@@ -70,8 +70,8 @@ set foldlevel=99                                   " No folding at all when open
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣    " List all white space characters. Show with :set list
 
 let g:airline#extensions#tabline#enabled = 1                 " Show a tab bar at the top with buffers
-let g:airline#extensions#tabline#left_sep = ' '              " Left separator between buffer names in the tab line
-let g:airline#extensions#tabline#left_alt_sep = '>'          " Right separator between buffer names in the tab line
+let g:airline#extensions#tabline#left_sep = '| '              " Left separator between buffer names in the tab line
+let g:airline#extensions#tabline#left_alt_sep = '|'          " Right separator between buffer names in the tab line
 let g:airline#extensions#tabline#formatter = 'unique_tail'   " Only show file names, not path information in the tab line
 let g:airline#extensions#default#layout = [['a','b','c'],['x','y','z','error']] " Left & right section in status bar, no warnings.
 
@@ -96,14 +96,16 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips"]    " Folder where are the snippe
 
 let g:vimtex_view_method="skim"                    " Use Skim as the default pdf viewer for LaTeX documents
 
-let g:ctrlp_map = '<c-p>'                          " Activate CtrlP with ^p
-let g:ctrlp_cmd = 'CtrlP'                          "             or with :CtrlP
+let g:ctrlp_map = '<c-p>'                          " Activate CtrlP with ^p or with :CtrlP
+let g:ctrlp_cmd = 'CtrlPMRU'                       " Use MRU (rather than files) as the default    
 
 let g:csv_strict_columns = 1                       " Delimiter cannot appear inside field. Speeds up things.
 let g:csv_comment = '#'                            " Lines starting with # are considered comment lines
 let g:csv_start = 1                                " Only use lines 1-500 to analyse the file,
 let g:csv_end = 500                                "      this speeds up things.
 
+let g:tagbar_width = 31                            " Width of the tagbar 
+let g:tagbar_compact = 1                           " No short help at top of the tagbar
 
 let g:EasyMotion_smartcase = 1                     " Make easymotion case-insensitive
 
@@ -111,9 +113,10 @@ let g:EasyMotion_smartcase = 1                     " Make easymotion case-insens
 ":set lcs+=space:⋅                                 " Show each space as a tiny dot. Only for recent enough vim
 ":set lcs+=tab:‣‣                                  " Show each tab as a triangle. Only for recent enough vim 
 
-" Map Ctrl-q to a file/buffer/mru list in which you can scroll and select
+" Map Ctrl-q to a file/buffer/mru list in which you can scroll and select, use
+" the MRU as the default starting point.
 
-map <c-q> :CtrlPBuffer<cr>
+map <c-q> :CtrlPMRU<cr>
 
 " In normal mode, define a mapping to cycle through listed buffers
 
@@ -134,6 +137,10 @@ nmap <S-Enter> o<Esc>
 " Map shift-space to insert one space in command mode
 
 nmap <S-Space> i <Esc>
+
+" Map <space> as a shortcut to remove search highlights
+
+map <Space> :noh<cr>
 
 " Return to last edit position when opening files
 
@@ -184,6 +191,14 @@ if has("gui_macvim")
     augroup END
 
 endif
+
+" Abbreviate :Tagbar to :tb
+
+cabbrev tb Tagbar 
+
+" A shortcut to select a block that just pasted
+
+nnoremap <expr> gV "`[".getregtype(v:register)[0]."`]"
 
 " Add a command to search in all files in the Notes/ folder
 
