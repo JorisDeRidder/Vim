@@ -15,17 +15,16 @@ Plugin 'vim-airline/vim-airline'                   " To have a colorful status l
 Plugin 'vim-airline/vim-airline-themes'            " To choose a specific theme for the status line
 Plugin 'airblade/vim-gitgutter'                    " Shows changes in gutter in files tracked by git
 Plugin 'ervandew/supertab'                         " Required to make ultisnips and YCM work together better
-Plugin 'SirVer/ultisnips'                          " Customisable snippets
 Plugin 'lervag/vimtex'                             " LaTeX plugin
 Plugin 'vimoutliner/vimoutliner'                   " Outlining with some automation
 Plugin 'majutsushi/tagbar'                         " Shows a list of tags in a tagbar
-Plugin 'Valloric/YouCompleteMe'                    " Code completer and syntax checker
 Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-separated value files
 Plugin 'easymotion/vim-easymotion'                 " Enhances motion throughout the text
 Plugin 'Nequo/vim-allomancer'                      " The Solarized color scheme
 Plugin 'mbbill/undotree'                           " To visualize the undo tree
 Plugin 'vim-scripts/argtextobj.vim'                " Text object for function arguments
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
+Plugin 'JuliaEditorSupport/julia-vim'              " Julia support, e,g. LaTeX-to-unicode conversion
 
 call vundle#end()
 
