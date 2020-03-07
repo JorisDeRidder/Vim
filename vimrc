@@ -9,8 +9,9 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'                      " Vundle should manage itself
 Plugin 'eiginn/netrw'                              " Reading/writing/browsing files even over network
 Plugin 'tpope/vim-fugitive'                        " Git interface of Tim Pope
-Plugin 'junegunn/gv.vim'                           " More Git functionality
-Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, even fuzzily
+Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, MRU, and buffers, even fuzzily
+Plugin 'junegunn/fzf'                              " Plugin to interface the command-line fzf command
+Plugin 'junegunn/fzf.vim'                          " Add vim commands to exploit the power of fzf 
 Plugin 'vim-airline/vim-airline'                   " To have a colorful status line
 Plugin 'vim-airline/vim-airline-themes'            " To choose a specific theme for the status line
 Plugin 'airblade/vim-gitgutter'                    " Shows changes in gutter in files tracked by git
@@ -39,9 +40,12 @@ set guifont=Andale\ Mono:h13                       " Font and font size
 let g:airline_theme='one'                          " Apply the solarized theme to the status line
 let g:airline_solarized_bg='dark'                  " Background for the status line
 
+set rtp+=/Users/joris/Bin/fzf/bin/fzf              " Add the location of fzf to the runtimepath
+
+filetype on                                        " Enable filetype recognition
 filetype plugin indent on                          " Set automatic indentation for the plugin files
-set nocompatible                                   " No compatibility with vim
 syntax enable                                      " Enable syntax highlighting
+set nocompatible                                   " No compatibility with vim
 set number                                         " Line numbering must be on by default
 set tabstop=4                                      " Tabs are 4 columns wide
 set softtabstop=4                                  " When hitting the <TAB> key, use a tab of 4 columns
@@ -68,11 +72,11 @@ set shortmess+=I                                   " Do not show the intro messa
 set laststatus=2                                   " Always show the status line
 set nowrap                                         " Don't wrap too long lines
 set relativenumber                                 " Line numbering is relative to the current line
-filetype on                                        " Enable filetype recognition
 set backspace=indent,eol,start                     " Allow backspacing over autoindent, line breaks & start of insert action
 set foldmethod=indent                              " Use indentation to decide how to fold
 set foldlevel=99                                   " No folding at all when opening a file
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣    " List all white space characters. Show with :set list
+
 
 let g:airline#extensions#tabline#enabled = 1                 " Show a tab bar at the top with buffers
 let g:airline#extensions#tabline#left_sep = '| '              " Left separator between buffer names in the tab line
@@ -86,11 +90,6 @@ let g:netrw_liststyle = 3                          " Use a tree style listing
 let g:netrw_winsize = 20                           " Let the file list use 20% of the window size
 
 let g:SuperTabDefaultCompletionType = '<C-n>'
-
-let g:UltiSnipsExpandTrigger="<C-z>"               " Expand snippet
-let g:UltiSnipsJumpForwardTrigger="<Right>"        " Jump to next
-let g:UltiSnipsJumpBackwardTrigger="<Left>"        " Jump to previous
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]    " Folder where are the snippets can be found
 
 let g:vimtex_view_method="skim"                    " Use Skim as the default pdf viewer for LaTeX documents
 
