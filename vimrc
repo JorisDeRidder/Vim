@@ -14,25 +14,30 @@ Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, even fuzzily
 Plugin 'vim-airline/vim-airline'                   " To have a colorful status line
 Plugin 'vim-airline/vim-airline-themes'            " To choose a specific theme for the status line
 Plugin 'airblade/vim-gitgutter'                    " Shows changes in gutter in files tracked by git
-Plugin 'ervandew/supertab'                         " Required to make ultisnips and YCM work together better
+Plugin 'ervandew/supertab'                         " Context-aware tab completion
 Plugin 'lervag/vimtex'                             " LaTeX plugin
-Plugin 'vimoutliner/vimoutliner'                   " Outlining with some automation
 Plugin 'majutsushi/tagbar'                         " Shows a list of tags in a tagbar
 Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-separated value files
 Plugin 'easymotion/vim-easymotion'                 " Enhances motion throughout the text
-Plugin 'Nequo/vim-allomancer'                      " The Solarized color scheme
+Plugin 'Nequo/vim-allomancer'                      " The 'allomancer' color scheme
+Plugin 'rakr/vim-one'                              " The 'one' color scheme
 Plugin 'mbbill/undotree'                           " To visualize the undo tree
 Plugin 'vim-scripts/argtextobj.vim'                " Text object for function arguments
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
 Plugin 'JuliaEditorSupport/julia-vim'              " Julia support, e,g. LaTeX-to-unicode conversion
+Plugin 'godlygeek/tabular'                         " Tabularizing text, e.g. on '=' char
+Plugin 'ntpeters/vim-better-whitespace'            " Highlight and fix trailing whitespace.
+Plugin 'tomtom/tcomment_vim'                       " Easy (un)commenting of code
+Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
 
-colorscheme allomancer                             " Set the proper color scheme
+colorscheme one                                    " Set the proper color scheme
+set background=dark                                " Dark version of the color scheme
 set guifont=Andale\ Mono:h13                       " Font and font size
 
-let g:airline_theme='distinguished'                " Apply the solarized theme to the status line
-let g:airline_solarized_bg='dark'                  " 
+let g:airline_theme='one'                          " Apply the solarized theme to the status line
+let g:airline_solarized_bg='dark'                  " Background for the status line
 
 filetype plugin indent on                          " Set automatic indentation for the plugin files
 set nocompatible                                   " No compatibility with vim
@@ -42,17 +47,17 @@ set tabstop=4                                      " Tabs are 4 columns wide
 set softtabstop=4                                  " When hitting the <TAB> key, use a tab of 4 columns
 set expandtab                                      " Tabs should always be expanded in spaces
 set autoindent                                     " Use indentation from previous line for next line
-set cindent                                        " C-style auto-indentation 
+set cindent                                        " C-style auto-indentation
 set cinkeys-=0#                                    " Avoid bad indent of # comment lines in Python
 set indentkeys-=0#                                 " Avoid bad indent of # comment lines in Python
 set shiftwidth=4                                   " Indentation should always be done using 4 spaces
-set showmatch                                      " Show matching pairs of brackets 
+set showmatch                                      " Show matching pairs of brackets
 set mat=2                                          " Blink 2 tenths of a second when matching
 set incsearch                                      " Incremental search = search starts from 1st char you type
 set hlsearch                                       " Highlight search results
 set nobackup                                       " Avoid backups
 set confirm                                        " Ask to save changes
-set visualbell                                     " Use visual bell instead of beeping 
+set visualbell                                     " Use visual bell instead of beeping
 set mouse=a                                        " Enable use of the mouse for all modes
 set showcmd                                        " Show information about the current command going on
 set nohidden                                       " When closing a tab, remove the buffer
@@ -62,6 +67,7 @@ set scrolloff=5                                    " When scrolling, keep cursor
 set shortmess+=I                                   " Do not show the intro message at start-up
 set laststatus=2                                   " Always show the status line
 set nowrap                                         " Don't wrap too long lines
+set relativenumber                                 " Line numbering is relative to the current line
 filetype on                                        " Enable filetype recognition
 set backspace=indent,eol,start                     " Allow backspacing over autoindent, line breaks & start of insert action
 set foldmethod=indent                              " Use indentation to decide how to fold
@@ -79,38 +85,33 @@ let g:netrw_browse_split = 4                       " Netrw opens files in existi
 let g:netrw_liststyle = 3                          " Use a tree style listing
 let g:netrw_winsize = 20                           " Let the file list use 20% of the window size
 
-let g:ycm_min_num_of_chars_for_completion = 3      " Don't attempt to complete before 3 chars are typed
-let g:ycm_confirm_extra_conf = 0                   " Don't ask for confirmation to load the .ycm_extra_conf.py file                   
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']     " how to navigate down in popup menu
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']     " How to navigate up in popup menu
-let g:ycm_add_preview_to_completeopt = 1                       " Show the preview window at the top
-let g:ycm_autoclose_preview_window_after_completion = 1        " Get rid of the preview window after tab-complete           
-let g:ycm_use_ultisnips_completer = 1                          " Use UltiSnips for completing snippet triggers
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
 let g:UltiSnipsExpandTrigger="<C-z>"               " Expand snippet
-let g:UltiSnipsJumpForwardTrigger="<Right>"        " Jump to next 
+let g:UltiSnipsJumpForwardTrigger="<Right>"        " Jump to next
 let g:UltiSnipsJumpBackwardTrigger="<Left>"        " Jump to previous
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]    " Folder where are the snippets can be found
 
 let g:vimtex_view_method="skim"                    " Use Skim as the default pdf viewer for LaTeX documents
 
 let g:ctrlp_map = '<c-p>'                          " Activate CtrlP with ^p or with :CtrlP
-let g:ctrlp_cmd = 'CtrlPMRU'                       " Use MRU (rather than files) as the default    
+let g:ctrlp_cmd = 'CtrlPMRU'                       " Use MRU (rather than files) as the default
 
 let g:csv_strict_columns = 1                       " Delimiter cannot appear inside field. Speeds up things.
 let g:csv_comment = '#'                            " Lines starting with # are considered comment lines
 let g:csv_start = 1                                " Only use lines 1-500 to analyse the file,
 let g:csv_end = 500                                "      this speeds up things.
 
-let g:tagbar_width = 31                            " Width of the tagbar 
+let g:tagbar_width = 31                            " Width of the tagbar
 let g:tagbar_compact = 1                           " No short help at top of the tagbar
 
 let g:EasyMotion_smartcase = 1                     " Make easymotion case-insensitive
 
+let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
+let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
 
 ":set lcs+=space:⋅                                 " Show each space as a tiny dot. Only for recent enough vim
-":set lcs+=tab:‣‣                                  " Show each tab as a triangle. Only for recent enough vim 
+":set lcs+=tab:‣‣                                  " Show each tab as a triangle. Only for recent enough vim
 
 " Map Ctrl-q to a file/buffer/mru list in which you can scroll and select, use
 " the MRU as the default starting point.
@@ -123,7 +124,7 @@ nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
 " In visual mode, use ctrl-c to copy the selection to the clipboard.
-" The '<,'>B construct is to copy only the selection instead of the 
+" The '<,'>B construct is to copy only the selection instead of the
 " entire line (which, strangely, is Vim's default behaviour, no matter
 " what you select). The '<,'>B construct works thanks to the vis plugin.
 
@@ -151,7 +152,7 @@ autocmd BufReadPost *
 
 " Better command-line tab-completion
 " E.g. :buffer <Tab> shows a list of open buffers (filenames)
-"      :edit <Tab> shows a list of files in the current folder 
+"      :edit <Tab> shows a list of files in the current folder
 
 set wildmenu
 set wildmode=list:longest
@@ -160,14 +161,14 @@ set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.o,*.obj,*.exe                  " compiled object files
 set wildignore+=*.sw?                            " Vim swap files
-set wildignore+=*.DS_Store                       " OSX specific 
+set wildignore+=*.DS_Store                       " OSX specific
 set wildignore+=*.pyc                            " Python byte code
 
 
-" following changes this behavior. The left and right arrow keys, as well as 
-" h and l, are wrapped when used at beginning or end of lines. ( < > are the 
-" cursor keys used in normal and visual mode, and [ ] are the cursor keys in 
-" insert mode). 
+" following changes this behavior. The left and right arrow keys, as well as
+" h and l, are wrapped when used at beginning or end of lines. ( < > are the
+" cursor keys used in normal and visual mode, and [ ] are the cursor keys in
+" insert mode).
 
 set whichwrap+=<,>,h,l,[,]
 
@@ -193,7 +194,7 @@ endif
 
 " Abbreviate :Tagbar to :tb
 
-cabbrev tb Tagbar 
+cabbrev tb Tagbar
 
 " A shortcut to select a block that just pasted
 
