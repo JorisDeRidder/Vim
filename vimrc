@@ -29,6 +29,8 @@ Plugin 'JuliaEditorSupport/julia-vim'              " Julia support, e,g. LaTeX-t
 Plugin 'godlygeek/tabular'                         " Tabularizing text, e.g. on '=' char
 Plugin 'ntpeters/vim-better-whitespace'            " Highlight and fix trailing whitespace.
 Plugin 'tomtom/tcomment_vim'                       " Easy (un)commenting of code
+Plugin 'goerz/jupytext.vim'                        " Edit jupyter notebooks (requires jupytext CLI) 
+Plugin 'tommcdo/vim-exchange'                      " Easy text swapping operator
 Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
@@ -199,10 +201,6 @@ cabbrev tb Tagbar
 
 nnoremap <expr> gV "`[".getregtype(v:register)[0]."`]"
 
-" Add a command to search in all files in the Notes/ folder
-
-command! -nargs=1 Ngrep vimgrep "<args>" /Users/joris/Notes/*.otl
-
 " I keep on mistyping :W instead of :w to write a file, so let's alias it.
 
 command! -bang W w<bang>
@@ -211,6 +209,16 @@ command! -bang W w<bang>
 " Usage: :10,25Vr
 
 command! -range Vr normal! <line1>GV<line2>G
+
+" Allow to visually select a region and then hit @ to run a macro on all lines.
+" Only lines which match will change without stopping at lines that don't match the macro.
+
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
 
 " Make sure that the buffer list is not swamped with fugitive buffers after
 " opening git objects.
