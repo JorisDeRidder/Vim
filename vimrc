@@ -9,6 +9,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'                      " Vundle should manage itself
 Plugin 'eiginn/netrw'                              " Reading/writing/browsing files even over network
 Plugin 'tpope/vim-fugitive'                        " Git interface of Tim Pope
+Plugin 'rhysd/conflict-marker.vim'                 " Fighting git conflicts
 Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, MRU, and buffers, even fuzzily
 Plugin 'junegunn/fzf'                              " Plugin to interface the command-line fzf command
 Plugin 'junegunn/fzf.vim'                          " Add vim commands to exploit the power of fzf 
@@ -25,12 +26,16 @@ Plugin 'rakr/vim-one'                              " The 'one' color scheme
 Plugin 'mbbill/undotree'                           " To visualize the undo tree
 Plugin 'vim-scripts/argtextobj.vim'                " Text object for function arguments
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
+Plugin 'tpope/vim-surround'                        " To wrap text in brackets, parenthesis, xml-tags, ...
 Plugin 'JuliaEditorSupport/julia-vim'              " Julia support, e,g. LaTeX-to-unicode conversion
 Plugin 'godlygeek/tabular'                         " Tabularizing text, e.g. on '=' char
 Plugin 'ntpeters/vim-better-whitespace'            " Highlight and fix trailing whitespace.
 Plugin 'tomtom/tcomment_vim'                       " Easy (un)commenting of code
 Plugin 'goerz/jupytext.vim'                        " Edit jupyter notebooks (requires jupytext CLI) 
 Plugin 'tommcdo/vim-exchange'                      " Easy text swapping operator
+Plugin 'itchyny/vim-cursorword'                    " Underline the 'word' under the cursor  
+Plugin 'jpalardy/vim-slime'                        " Communication between vim and a tmux session
+Plugin 'christoomey/vim-tmux-navigator'            " To move between Vim panes and tmux splits
 Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
@@ -47,7 +52,7 @@ set rtp+=/Users/joris/Bin/fzf/bin/fzf              " Add the location of fzf to 
 filetype on                                        " Enable filetype recognition
 filetype plugin indent on                          " Set automatic indentation for the plugin files
 syntax enable                                      " Enable syntax highlighting
-set nocompatible                                   " No compatibility with vim
+set nocompatible                                   " No compatibility with vi
 set number                                         " Line numbering must be on by default
 set tabstop=4                                      " Tabs are 4 columns wide
 set softtabstop=4                                  " When hitting the <TAB> key, use a tab of 4 columns
@@ -58,7 +63,7 @@ set cinkeys-=0#                                    " Avoid bad indent of # comme
 set indentkeys-=0#                                 " Avoid bad indent of # comment lines in Python
 set shiftwidth=4                                   " Indentation should always be done using 4 spaces
 set showmatch                                      " Show matching pairs of brackets
-set mat=2                                          " Blink 2 tenths of a second when matching
+set mat=3                                          " Blink 2 tenths of a second when matching
 set incsearch                                      " Incremental search = search starts from 1st char you type
 set hlsearch                                       " Highlight search results
 set nobackup                                       " Avoid backups
@@ -111,6 +116,11 @@ let g:EasyMotion_smartcase = 1                     " Make easymotion case-insens
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
 let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
 
+let g:slime_target = "tmux"                        " Use tmux instead of screen
+let g:slime_paste_file = "$HOME/.slime_paste"      " Temporary file to paste into tmux session
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
+let g:slime_python_ipython = 1                     " 
+
 ":set lcs+=space:⋅                                 " Show each space as a tiny dot. Only for recent enough vim
 ":set lcs+=tab:‣‣                                  " Show each tab as a triangle. Only for recent enough vim
 
@@ -150,6 +160,11 @@ autocmd BufReadPost *
     \   exe "normal! g`\"" |
     \ endif
 
+" Disable the automatically inserting the comment symbol
+" E.g. When typing in Python # xxx <cr> a new comment symbol #
+" is inserted on the next line by default. I dislike it.
+
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Better command-line tab-completion
 " E.g. :buffer <Tab> shows a list of open buffers (filenames)
@@ -182,16 +197,15 @@ if has("gui_macvim")
 
     let macvim_hig_shift_movement = 1
 
-    " Show a cursorline in the current window and in normal mode.
-    " In a terminal this would show up as an ugly underline.
-
-    augroup cline
-        au!
-        au WinLeave,InsertEnter * set nocursorline
-        au WinEnter,InsertLeave * set cursorline
-    augroup END
-
 endif
+
+" Show a cursorline in the current window and in normal mode.
+
+augroup cline
+    au!
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
 
 " Abbreviate :Tagbar to :tb
 
