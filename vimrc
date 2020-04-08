@@ -53,6 +53,7 @@ filetype on                                        " Enable filetype recognition
 filetype plugin indent on                          " Set automatic indentation for the plugin files
 syntax enable                                      " Enable syntax highlighting
 set nocompatible                                   " No compatibility with vi
+set ttyfast                                        " Faster terminal updates
 set number                                         " Line numbering must be on by default
 set tabstop=4                                      " Tabs are 4 columns wide
 set softtabstop=4                                  " When hitting the <TAB> key, use a tab of 4 columns
@@ -66,6 +67,7 @@ set showmatch                                      " Show matching pairs of brac
 set mat=3                                          " Blink 2 tenths of a second when matching
 set incsearch                                      " Incremental search = search starts from 1st char you type
 set hlsearch                                       " Highlight search results
+set smartcase                                      " Case-insensitive search except when capitals are used
 set nobackup                                       " Avoid backups
 set confirm                                        " Ask to save changes
 set visualbell                                     " Use visual bell instead of beeping
@@ -74,6 +76,7 @@ set showcmd                                        " Show information about the 
 set nohidden                                       " When closing a tab, remove the buffer
 set autoread                                       " Watch for file changes
 set autowrite                                      " Automatically save when switching/abandoning a buffer
+set report=0                                       " Always report the number of lines that were changed
 set scrolloff=5                                    " When scrolling, keep cursor 5 lines from top or bottom
 set shortmess+=I                                   " Do not show the intro message at start-up
 set laststatus=2                                   " Always show the status line
@@ -82,8 +85,10 @@ set relativenumber                                 " Line numbering is relative 
 set backspace=indent,eol,start                     " Allow backspacing over autoindent, line breaks & start of insert action
 set foldmethod=indent                              " Use indentation to decide how to fold
 set foldlevel=99                                   " No folding at all when opening a file
+set lazyredraw                                     " Don't update the display while executing macros
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣    " List all white space characters. Show with :set list
 
+let mapleader = '\'                                " Use backslash to start custom shortcuts
 
 let g:airline#extensions#tabline#enabled = 1                 " Show a tab bar at the top with buffers
 let g:airline#extensions#tabline#left_sep = '| '              " Left separator between buffer names in the tab line
@@ -111,7 +116,6 @@ let g:csv_end = 500                                "      this speeds up things.
 let g:tagbar_width = 31                            " Width of the tagbar
 let g:tagbar_compact = 1                           " No short help at top of the tagbar
 
-let g:EasyMotion_smartcase = 1                     " Make easymotion case-insensitive
 
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
 let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
@@ -120,6 +124,37 @@ let g:slime_target = "tmux"                        " Use tmux instead of screen
 let g:slime_paste_file = "$HOME/.slime_paste"      " Temporary file to paste into tmux session
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
 let g:slime_python_ipython = 1                     " 
+
+
+
+" Configure Easymotion:
+"   1) \\w for motion to words  (bi-directional (bd) and over different windows (overwin)).
+"   2) \\L for motion to lines  (bi-directional (bd) and over different windows (overwin)).
+"   3) \\h for motion on the current line (backward)
+"   4) \\l for motion on the current line (forward)
+"   5) Vim's search '/' can support <Tab>, <S-Tab> and Easymotion by pressing <CR>
+" In addition, Easymotion's default colors hurt my eyes, so I change them.
+
+let g:EasyMotion_smartcase = 1                     " Make easymotion case-insensitive
+map  <Leader><Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader><Leader>w <Plug>(easymotion-overwin-w)
+map  <Leader><Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader><Leader>L <Plug>(easymotion-overwin-line)
+map  <Leader><Leader>l <Plug>(easymotion-lineforward)
+map  <Leader><Leader>h <Plug>(easymotion-linebackward)
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+hi link EasyMotionTarget ErrorMsg
+hi link EasyMotionShade  Comment
+
+" In normal mode, use \s to fuzzy-search with fzf in the current file
+" There was one other mapping (\swp) that made my \s really slow, because
+" vim waits a while to be sure that after \s there is no 'wp' coming. 
+" Unmap \swp as I never use it anyway.
+
+nnoremap <leader>s :BLines<cr>
+autocmd VimEnter * unmap \swp
 
 ":set lcs+=space:⋅                                 " Show each space as a tiny dot. Only for recent enough vim
 ":set lcs+=tab:‣‣                                  " Show each tab as a triangle. Only for recent enough vim
@@ -218,6 +253,7 @@ nnoremap <expr> gV "`[".getregtype(v:register)[0]."`]"
 " I keep on mistyping :W instead of :w to write a file, so let's alias it.
 
 command! -bang W w<bang>
+command! Wq wq
 
 " Make a command to select a range of lines
 " Usage: :10,25Vr
