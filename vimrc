@@ -9,6 +9,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'                      " Vundle should manage itself
 Plugin 'eiginn/netrw'                              " Reading/writing/browsing files even over network
 Plugin 'tpope/vim-fugitive'                        " Git interface of Tim Pope
+Plugin 'jreybert/vimagit'                          " To easily stage hunks/files and commit with Git
 Plugin 'rhysd/conflict-marker.vim'                 " Fighting git conflicts
 Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, MRU, and buffers, even fuzzily
 Plugin 'junegunn/fzf'                              " Plugin to interface the command-line fzf command
@@ -77,7 +78,7 @@ set nohidden                                       " When closing a tab, remove 
 set autoread                                       " Watch for file changes
 set autowrite                                      " Automatically save when switching/abandoning a buffer
 set report=0                                       " Always report the number of lines that were changed
-set scrolloff=5                                    " When scrolling, keep cursor 5 lines from top or bottom
+set scrolloff=10                                   " When scrolling, keep cursor 10 lines from top or bottom
 set shortmess+=I                                   " Do not show the intro message at start-up
 set laststatus=2                                   " Always show the status line
 set nowrap                                         " Don't wrap too long lines
