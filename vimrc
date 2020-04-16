@@ -37,6 +37,11 @@ Plugin 'tommcdo/vim-exchange'                      " Easy text swapping operator
 Plugin 'itchyny/vim-cursorword'                    " Underline the 'word' under the cursor  
 Plugin 'jpalardy/vim-slime'                        " Communication between vim and a tmux session
 Plugin 'christoomey/vim-tmux-navigator'            " To move between Vim panes and tmux splits
+Plugin 'ludovicchabant/vim-gutentags'              " Manages ctags files
+Plugin 'psliwka/vim-smoothie'                      " Smooth scrolling with ^f, ^b, ^u, ^d 
+Plugin 'Yggdroot/indentLine'                       " Show tiny vertical lines at each indent level
+Plugin 'markonm/traces.vim'                        " Range, pattern and substitute preview
+Plugin 'jiangmiao/auto-pairs'                      " Inserts or deletes brackets, parens, quotes in pairs
 Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
@@ -124,9 +129,16 @@ let g:strip_whitespace_on_save=0                   " No removing of trailing whi
 let g:slime_target = "tmux"                        " Use tmux instead of screen
 let g:slime_paste_file = "$HOME/.slime_paste"      " Temporary file to paste into tmux session
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-let g:slime_python_ipython = 1                     " 
+let g:slime_python_ipython = 1                     " Solves the problem of the missing <CR> in ipython 
 
+let g:gutentags_enabled = 1                                 " Set to 0 if no ctags updates are desired
+let g:gutentags_ctags_extra_args = ['-R', '--extra=+f']     " -R: recursive, +f: include files
 
+let g:smoothie_base_speed = 20                     " Base speed in lines per second
+
+let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin
+let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible
+let g:indentLine_char = '┊'                        " Type of vertical line
 
 " Configure Easymotion:
 "   1) \\w for motion to words  (bi-directional (bd) and over different windows (overwin)).
