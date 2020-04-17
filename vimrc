@@ -1,5 +1,5 @@
 
-set encoding=utf-8                                 " Required by YouCompleteMe
+"set encoding=utf-8                                 " Set output encoding to UTF-8
 set rtp+=~/.vim/bundle/Vundle.vim                  " Set the runtime path to include Vundle
 
 " Initialise Vundle
@@ -18,6 +18,7 @@ Plugin 'vim-airline/vim-airline'                   " To have a colorful status l
 Plugin 'vim-airline/vim-airline-themes'            " To choose a specific theme for the status line
 Plugin 'airblade/vim-gitgutter'                    " Shows changes in gutter in files tracked by git
 Plugin 'ervandew/supertab'                         " Context-aware tab completion
+Plugin 'vim-syntastic/syntastic'                   " Syntax checker for various languages
 Plugin 'lervag/vimtex'                             " LaTeX plugin
 Plugin 'majutsushi/tagbar'                         " Shows a list of tags in a tagbar
 Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-separated value files
@@ -42,6 +43,7 @@ Plugin 'psliwka/vim-smoothie'                      " Smooth scrolling with ^f, ^
 Plugin 'Yggdroot/indentLine'                       " Show tiny vertical lines at each indent level
 Plugin 'markonm/traces.vim'                        " Range, pattern and substitute preview
 Plugin 'jiangmiao/auto-pairs'                      " Inserts or deletes brackets, parens, quotes in pairs
+Plugin 'thinca/vim-localrc'                        " Loads vimrc files dedicated to local dirs/projects
 Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
@@ -69,6 +71,7 @@ set cindent                                        " C-style auto-indentation
 set cinkeys-=0#                                    " Avoid bad indent of # comment lines in Python
 set indentkeys-=0#                                 " Avoid bad indent of # comment lines in Python
 set shiftwidth=4                                   " Indentation should always be done using 4 spaces
+set textwidth=0                                    " Don't break long lines
 set showmatch                                      " Show matching pairs of brackets
 set mat=3                                          " Blink 2 tenths of a second when matching
 set incsearch                                      " Incremental search = search starts from 1st char you type
@@ -109,6 +112,16 @@ let g:netrw_winsize = 20                           " Let the file list use 20% o
 
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
+let g:syntastic_python_checkers = ['pylint']       " No flake, just pylint
+let g:syntastic_python_pylint_args='-E'            " Errors only
+let g:syntastic_cpp_compiler = "clang++"           " Compiler is Clang, not gcc
+let g:syntastic_cpp_check_header = 1               " Also check the header files
+let g:syntastic_cpp_auto_refresh_includes = 1      " Check headers everytime you write
+let g:syntastic_always_populate_loc_list = 0       " Don't auto-populate location list with errors to avoid clashes with other plugins. Manually do it with :Errors
+let g:syntastic_auto_loc_list = 0                  " Don't automatically open the location list when errors are detected. 
+let g:syntastic_check_on_open = 0                  " Don't check when opening a file, this slows down opening a file too much.
+let g:syntastic_check_on_wq = 0                    " Don't bother syntax-checking when :wq as we're quitting Vim anyway.
+
 let g:vimtex_view_method="skim"                    " Use Skim as the default pdf viewer for LaTeX documents
 
 let g:ctrlp_map = '<c-p>'                          " Activate CtrlP with ^p or with :CtrlP
@@ -139,6 +152,11 @@ let g:smoothie_base_speed = 20                     " Base speed in lines per sec
 let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin
 let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible
 let g:indentLine_char = '┊'                        " Type of vertical line
+
+let g:indentLine_fileTypeExclude = ['tex']         " Indentline screws up working with LaTeX, because its conceal feature
+au Filetype tex setlocal conceallevel=0            "   auto-replace latex text. These two lines fix this problem.
+
+let g:localrc_filename = ".local.vimrc"            " Default name of the local dir/project vimrc files.
 
 " Configure Easymotion:
 "   1) \\w for motion to words  (bi-directional (bd) and over different windows (overwin)).
