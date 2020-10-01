@@ -30,6 +30,7 @@ Plugin 'vim-scripts/argtextobj.vim'                " Text object for function ar
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
 Plugin 'tpope/vim-surround'                        " To wrap text in brackets, parenthesis, xml-tags, ...
 Plugin 'JuliaEditorSupport/julia-vim'              " Julia support, e,g. LaTeX-to-unicode conversion
+Plugin 'rust-lang/rust.vim'                        " Syntax highlighting for the Rust language
 Plugin 'godlygeek/tabular'                         " Tabularizing text, e.g. on '=' char
 Plugin 'ntpeters/vim-better-whitespace'            " Highlight and fix trailing whitespace.
 Plugin 'tomtom/tcomment_vim'                       " Easy (un)commenting of code
@@ -117,12 +118,15 @@ let g:syntastic_python_pylint_args='-E'            " Errors only
 let g:syntastic_cpp_compiler = "clang++"           " Compiler is Clang, not gcc
 let g:syntastic_cpp_check_header = 1               " Also check the header files
 let g:syntastic_cpp_auto_refresh_includes = 1      " Check headers everytime you write
-let g:syntastic_always_populate_loc_list = 0       " Don't auto-populate location list with errors to avoid clashes with other plugins. Manually do it with :Errors
+let g:syntastic_always_populate_loc_list = 0       " Don't auto-populate location list with errors to avoid clashes with other plugins. Manual way: :Errors
 let g:syntastic_auto_loc_list = 0                  " Don't automatically open the location list when errors are detected. 
 let g:syntastic_check_on_open = 0                  " Don't check when opening a file, this slows down opening a file too much.
 let g:syntastic_check_on_wq = 0                    " Don't bother syntax-checking when :wq as we're quitting Vim anyway.
 
 let g:vimtex_view_method="skim"                    " Use Skim as the default pdf viewer for LaTeX documents
+let g:vimtex_quickfix_latexlog = {'default':0}     " Only report LaTeX errors, not warnings
+let g:vimtex_quickfix_mode = 2                     " Open quickfix only when there are errors, and don't make it the active window
+let g:vimtex_quickfix_autojump = 0                 " Don't auto-jump to the first LaTeX error when there are compilation errors
 
 let g:ctrlp_map = '<c-p>'                          " Activate CtrlP with ^p or with :CtrlP
 let g:ctrlp_cmd = 'CtrlPMRU'                       " Use MRU (rather than files) as the default
@@ -144,8 +148,8 @@ let g:slime_paste_file = "$HOME/.slime_paste"      " Temporary file to paste int
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
 let g:slime_python_ipython = 1                     " Solves the problem of the missing <CR> in ipython 
 
-let g:gutentags_enabled = 1                                 " Set to 0 if no ctags updates are desired
-let g:gutentags_ctags_extra_args = ['-R', '--extra=+f']     " -R: recursive, +f: include files
+let g:gutentags_enabled = 1                                " Set to 0 if no ctags updates are desired
+let g:gutentags_ctags_extra_args = ['-R', '--extra=+f']    " -R: recursive, +f: include files
 
 let g:smoothie_base_speed = 20                     " Base speed in lines per second
 
@@ -166,7 +170,7 @@ let g:localrc_filename = ".local.vimrc"            " Default name of the local d
 "   5) Vim's search '/' can support <Tab>, <S-Tab> and Easymotion by pressing <CR>
 " In addition, Easymotion's default colors hurt my eyes, so I change them.
 
-let g:EasyMotion_smartcase = 1                     " Make easymotion case-insensitive
+let g:EasyMotion_smartcase = 1                           " Make easymotion case-insensitive
 map  <Leader><Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader><Leader>w <Plug>(easymotion-overwin-w)
 map  <Leader><Leader>L <Plug>(easymotion-bd-jk)
