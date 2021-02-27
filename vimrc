@@ -22,18 +22,22 @@ Plugin 'vim-syntastic/syntastic'                   " Syntax checker for various 
 Plugin 'lervag/vimtex'                             " LaTeX plugin
 Plugin 'majutsushi/tagbar'                         " Shows a list of tags in a tagbar
 Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-separated value files
-Plugin 'easymotion/vim-easymotion'                 " Enhances motion throughout the text
 Plugin 'Nequo/vim-allomancer'                      " The 'allomancer' color scheme
 Plugin 'rakr/vim-one'                              " The 'one' color scheme
+Plugin 'sainnhe/sonokai'                           " The 'sonakai' color scheme
 Plugin 'mbbill/undotree'                           " To visualize the undo tree
 Plugin 'vim-scripts/argtextobj.vim'                " Text object for function arguments
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
 Plugin 'tpope/vim-surround'                        " To wrap text in brackets, parenthesis, xml-tags, ...
 Plugin 'JuliaEditorSupport/julia-vim'              " Julia support, e,g. LaTeX-to-unicode conversion
+Plugin 'mg979/vim-visual-multi'                    " Support for multiple cursors, like in Sublime 
 Plugin 'rust-lang/rust.vim'                        " Syntax highlighting for the Rust language
 Plugin 'godlygeek/tabular'                         " Tabularizing text, e.g. on '=' char
 Plugin 'ntpeters/vim-better-whitespace'            " Highlight and fix trailing whitespace.
 Plugin 'tomtom/tcomment_vim'                       " Easy (un)commenting of code
+Plugin 'matze/vim-move'                            " Moving selected blocks of text 
+Plugin 'sickill/vim-pasta'                         " Adjust indentation of pasted text to that of the surrounding code
+Plugin 'justinmk/vim-sneak'                        " Jump to next/prev location with s{char}{char} / S{char}{char}
 Plugin 'goerz/jupytext.vim'                        " Edit jupyter notebooks (requires jupytext CLI) 
 Plugin 'tommcdo/vim-exchange'                      " Easy text swapping operator
 Plugin 'itchyny/vim-cursorword'                    " Underline the 'word' under the cursor  
@@ -44,7 +48,9 @@ Plugin 'psliwka/vim-smoothie'                      " Smooth scrolling with ^f, ^
 Plugin 'Yggdroot/indentLine'                       " Show tiny vertical lines at each indent level
 Plugin 'markonm/traces.vim'                        " Range, pattern and substitute preview
 Plugin 'jiangmiao/auto-pairs'                      " Inserts or deletes brackets, parens, quotes in pairs
+Plugin 'rhysd/git-messenger.vim'                   " Show commit history under the cursor in popup window
 Plugin 'thinca/vim-localrc'                        " Loads vimrc files dedicated to local dirs/projects
+Plugin 'tpope/vim-speeddating'                     " Incrementing and decrementing dates with <C-A>
 Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
@@ -52,9 +58,6 @@ call vundle#end()
 colorscheme one                                    " Set the proper color scheme
 set background=dark                                " Dark version of the color scheme
 set guifont=Andale\ Mono:h13                       " Font and font size
-
-let g:airline_theme='one'                          " Apply the solarized theme to the status line
-let g:airline_solarized_bg='dark'                  " Background for the status line
 
 set rtp+=/Users/joris/Bin/fzf/bin/fzf              " Add the location of fzf to the runtimepath
 
@@ -139,6 +142,7 @@ let g:csv_end = 500                                "      this speeds up things.
 let g:tagbar_width = 31                            " Width of the tagbar
 let g:tagbar_compact = 1                           " No short help at top of the tagbar
 
+let g:git_messenger_close_on_cursor_moved = v:false
 
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
 let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
@@ -153,35 +157,18 @@ let g:gutentags_ctags_extra_args = ['-R', '--extra=+f']    " -R: recursive, +f: 
 
 let g:smoothie_base_speed = 20                     " Base speed in lines per second
 
-let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin
-let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible
+let g:move_key_modifier = 'C'                      " <Ctrl-k> <Ctrl-j> <Ctrl-h> and <Ctrl-l> allow to move blocks of text
+
+let g:sneak#label = 1
+
+let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin  
+let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible 
 let g:indentLine_char = '┊'                        " Type of vertical line
 
 let g:indentLine_fileTypeExclude = ['tex']         " Indentline screws up working with LaTeX, because its conceal feature
 au Filetype tex setlocal conceallevel=0            "   auto-replace latex text. These two lines fix this problem.
 
 let g:localrc_filename = ".local.vimrc"            " Default name of the local dir/project vimrc files.
-
-" Configure Easymotion:
-"   1) \\w for motion to words  (bi-directional (bd) and over different windows (overwin)).
-"   2) \\L for motion to lines  (bi-directional (bd) and over different windows (overwin)).
-"   3) \\h for motion on the current line (backward)
-"   4) \\l for motion on the current line (forward)
-"   5) Vim's search '/' can support <Tab>, <S-Tab> and Easymotion by pressing <CR>
-" In addition, Easymotion's default colors hurt my eyes, so I change them.
-
-let g:EasyMotion_smartcase = 1                           " Make easymotion case-insensitive
-map  <Leader><Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader><Leader>w <Plug>(easymotion-overwin-w)
-map  <Leader><Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader><Leader>L <Plug>(easymotion-overwin-line)
-map  <Leader><Leader>l <Plug>(easymotion-lineforward)
-map  <Leader><Leader>h <Plug>(easymotion-linebackward)
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-
-hi link EasyMotionTarget ErrorMsg
-hi link EasyMotionShade  Comment
 
 " In normal mode, use \s to fuzzy-search with fzf in the current file
 " There was one other mapping (\swp) that made my \s really slow, because
