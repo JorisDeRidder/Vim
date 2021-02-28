@@ -177,7 +177,8 @@ let g:smoothie_base_speed = 20                     " Base speed in lines per sec
 
 let g:move_key_modifier = 'C'                      " <Ctrl-k> <Ctrl-j> <Ctrl-h> and <Ctrl-l> allow to move blocks of text
 
-let g:sneak#label = 1
+let g:sneak#label = 1                                " Allow to use sneak with labels overlaying the text, like Easymotion
+let g:sneak#target_labels=";sftunq/SFGHLTUNRMQZ?01"  " Labels that sneak will use to highlight your search combo
 
 let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin  
 let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible 
