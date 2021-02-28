@@ -14,6 +14,7 @@ Plugin 'rhysd/conflict-marker.vim'                 " Fighting git conflicts
 Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, MRU, and buffers, even fuzzily
 Plugin 'junegunn/fzf'                              " Plugin to interface the command-line fzf command
 Plugin 'junegunn/fzf.vim'                          " Add vim commands to exploit the power of fzf 
+Plugin 'ap/vim-buftabline'
 Plugin 'vim-airline/vim-airline'                   " To have a colorful status line
 Plugin 'vim-airline/vim-airline-themes'            " To choose a specific theme for the status line
 Plugin 'airblade/vim-gitgutter'                    " Shows changes in gutter in files tracked by git
