@@ -111,11 +111,21 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣    " List al
 
 let mapleader = '\'                                " Use backslash to start custom shortcuts
 
-let g:airline#extensions#tabline#enabled = 1                 " Show a tab bar at the top with buffers
-let g:airline#extensions#tabline#left_sep = '| '              " Left separator between buffer names in the tab line
-let g:airline#extensions#tabline#left_alt_sep = '|'          " Right separator between buffer names in the tab line
-let g:airline#extensions#tabline#formatter = 'unique_tail'   " Only show file names, not path information in the tab line
 let g:airline#extensions#default#layout = [['a','b','c'],['x','y','z','error']] " Left & right section in status bar, no warnings.
+
+let g:buftabline_show=1                            " Only show tabline when there are at least 2 buffers
+let g:buftabline_numbers=2                         " Give each buffer an ordinal nr != its buffer number
+let g:buftabline_separators='|'                    " Separator between buffer names in tabline
+nmap <leader>1 <Plug>BufTabLine.Go(1)              " Use \1 to switch to buffer 1
+nmap <leader>2 <Plug>BufTabLine.Go(2)              " Use \2 to switch to buffer 2
+nmap <leader>3 <Plug>BufTabLine.Go(3)              " Use \3 to switch to buffer 3
+nmap <leader>4 <Plug>BufTabLine.Go(4)              " Use \4 to switch to buffer 4
+nmap <leader>5 <Plug>BufTabLine.Go(5)              " Use \5 to switch to buffer 5
+nmap <leader>6 <Plug>BufTabLine.Go(6)              " Use \6 to switch to buffer 6
+nmap <leader>7 <Plug>BufTabLine.Go(7)              " Use \7 to switch to buffer 7
+nmap <leader>8 <Plug>BufTabLine.Go(8)              " Use \8 to switch to buffer 8
+nmap <leader>9 <Plug>BufTabLine.Go(9)              " Use \9 to switch to buffer 9
+
 
 let g:netrw_banner = 0                             " No banner when showing a folder contents with netrw
 let g:netrw_browse_split = 4                       " Netrw opens files in existing window
