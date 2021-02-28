@@ -56,7 +56,14 @@ Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
 
-colorscheme one                                    " Set the proper color scheme
+let GUIcolorscheme   = 'sonokai'
+let ShellColorscheme = 'gruvbox'
+if has('gui_running')                              " Set the proper color scheme
+    exe 'colorscheme' GUIcolorscheme
+else
+    exe 'colorscheme' ShellColorscheme
+endif
+
 set background=dark                                " Dark version of the color scheme
 set guifont=Andale\ Mono:h13                       " Font and font size
 
