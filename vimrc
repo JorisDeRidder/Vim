@@ -23,9 +23,9 @@ Plugin 'vim-syntastic/syntastic'                   " Syntax checker for various 
 Plugin 'lervag/vimtex'                             " LaTeX plugin
 Plugin 'majutsushi/tagbar'                         " Shows a list of tags in a tagbar
 Plugin 'chrisbra/csv.vim'                          " Tools to work with comma-separated value files
-Plugin 'Nequo/vim-allomancer'                      " The 'allomancer' color scheme
 Plugin 'rakr/vim-one'                              " The 'one' color scheme
 Plugin 'sainnhe/sonokai'                           " The 'sonakai' color scheme
+Plugin 'morhetz/gruvbox'                           " The 'gruvbox' color scheme
 Plugin 'mbbill/undotree'                           " To visualize the undo tree
 Plugin 'vim-scripts/argtextobj.vim'                " Text object for function arguments
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
