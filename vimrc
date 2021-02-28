@@ -13,7 +13,7 @@ Plugin 'jreybert/vimagit'                          " To easily stage hunks/files
 Plugin 'rhysd/conflict-marker.vim'                 " Fighting git conflicts
 Plugin 'ctrlpvim/ctrlp.vim'                        " Find files, MRU, and buffers, even fuzzily
 Plugin 'junegunn/fzf'                              " Plugin to interface the command-line fzf command
-Plugin 'junegunn/fzf.vim'                          " Add vim commands to exploit the power of fzf 
+Plugin 'junegunn/fzf.vim'                          " Add vim commands to exploit the power of fzf
 Plugin 'ap/vim-buftabline'
 Plugin 'vim-airline/vim-airline'                   " To have a colorful status line
 Plugin 'vim-airline/vim-airline-themes'            " To choose a specific theme for the status line
@@ -31,21 +31,22 @@ Plugin 'vim-scripts/argtextobj.vim'                " Text object for function ar
 Plugin 'michaeljsmith/vim-indent-object'           " Text object for indented blocks
 Plugin 'tpope/vim-surround'                        " To wrap text in brackets, parenthesis, xml-tags, ...
 Plugin 'JuliaEditorSupport/julia-vim'              " Julia support, e,g. LaTeX-to-unicode conversion
-Plugin 'mg979/vim-visual-multi'                    " Support for multiple cursors, like in Sublime 
+Plugin 'mg979/vim-visual-multi'                    " Support for multiple cursors, like in Sublime
 Plugin 'rust-lang/rust.vim'                        " Syntax highlighting for the Rust language
 Plugin 'godlygeek/tabular'                         " Tabularizing text, e.g. on '=' char
 Plugin 'ntpeters/vim-better-whitespace'            " Highlight and fix trailing whitespace.
 Plugin 'tomtom/tcomment_vim'                       " Easy (un)commenting of code
-Plugin 'matze/vim-move'                            " Moving selected blocks of text 
+Plugin 'matze/vim-move'                            " Moving selected blocks of text
+Plugin 'pechorin/any-jump.vim'                     " List def and refs of word under cursor, project wide. Requires ripgrep.
 Plugin 'sickill/vim-pasta'                         " Adjust indentation of pasted text to that of the surrounding code
 Plugin 'justinmk/vim-sneak'                        " Jump to next/prev location with s{char}{char} / S{char}{char}
-Plugin 'goerz/jupytext.vim'                        " Edit jupyter notebooks (requires jupytext CLI) 
+Plugin 'goerz/jupytext.vim'                        " Edit jupyter notebooks (requires jupytext CLI)
 Plugin 'tommcdo/vim-exchange'                      " Easy text swapping operator
-Plugin 'itchyny/vim-cursorword'                    " Underline the 'word' under the cursor  
+Plugin 'itchyny/vim-cursorword'                    " Underline the 'word' under the cursor
 Plugin 'jpalardy/vim-slime'                        " Communication between vim and a tmux session
 Plugin 'christoomey/vim-tmux-navigator'            " To move between Vim panes and tmux splits
 Plugin 'ludovicchabant/vim-gutentags'              " Manages ctags files
-Plugin 'psliwka/vim-smoothie'                      " Smooth scrolling with ^f, ^b, ^u, ^d 
+Plugin 'psliwka/vim-smoothie'                      " Smooth scrolling with ^f, ^b, ^u, ^d
 Plugin 'Yggdroot/indentLine'                       " Show tiny vertical lines at each indent level
 Plugin 'markonm/traces.vim'                        " Range, pattern and substitute preview
 Plugin 'jiangmiao/auto-pairs'                      " Inserts or deletes brackets, parens, quotes in pairs
@@ -140,7 +141,7 @@ let g:syntastic_cpp_compiler = "clang++"           " Compiler is Clang, not gcc
 let g:syntastic_cpp_check_header = 1               " Also check the header files
 let g:syntastic_cpp_auto_refresh_includes = 1      " Check headers everytime you write
 let g:syntastic_always_populate_loc_list = 0       " Don't auto-populate location list with errors to avoid clashes with other plugins. Manual way: :Errors
-let g:syntastic_auto_loc_list = 0                  " Don't automatically open the location list when errors are detected. 
+let g:syntastic_auto_loc_list = 0                  " Don't automatically open the location list when errors are detected.
 let g:syntastic_check_on_open = 0                  " Don't check when opening a file, this slows down opening a file too much.
 let g:syntastic_check_on_wq = 0                    " Don't bother syntax-checking when :wq as we're quitting Vim anyway.
 
@@ -168,7 +169,7 @@ let g:strip_whitespace_on_save=0                   " No removing of trailing whi
 let g:slime_target = "tmux"                        " Use tmux instead of screen
 let g:slime_paste_file = "$HOME/.slime_paste"      " Temporary file to paste into tmux session
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-of}"}
-let g:slime_python_ipython = 1                     " Solves the problem of the missing <CR> in ipython 
+let g:slime_python_ipython = 1                     " Solves the problem of the missing <CR> in ipython
 
 let g:gutentags_enabled = 1                                " Set to 0 if no ctags updates are desired
 let g:gutentags_ctags_extra_args = ['-R', '--extra=+f']    " -R: recursive, +f: include files
@@ -180,8 +181,8 @@ let g:move_key_modifier = 'C'                      " <Ctrl-k> <Ctrl-j> <Ctrl-h> 
 let g:sneak#label = 1                                " Allow to use sneak with labels overlaying the text, like Easymotion
 let g:sneak#target_labels=";sftunq/SFGHLTUNRMQZ?01"  " Labels that sneak will use to highlight your search combo
 
-let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin  
-let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible 
+let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin
+let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible
 let g:indentLine_char = '┊'                        " Type of vertical line
 
 let g:indentLine_fileTypeExclude = ['tex']         " Indentline screws up working with LaTeX, because its conceal feature
@@ -191,7 +192,7 @@ let g:localrc_filename = ".local.vimrc"            " Default name of the local d
 
 " In normal mode, use \s to fuzzy-search with fzf in the current file
 " There was one other mapping (\swp) that made my \s really slow, because
-" vim waits a while to be sure that after \s there is no 'wp' coming. 
+" vim waits a while to be sure that after \s there is no 'wp' coming.
 " Unmap \swp as I never use it anyway.
 
 nnoremap <leader>s :BLines<cr>
