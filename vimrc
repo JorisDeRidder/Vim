@@ -194,11 +194,18 @@ au Filetype tex setlocal conceallevel=0            "   auto-replace latex text. 
 
 let g:localrc_filename = ".local.vimrc"            " Default name of the local dir/project vimrc files.
 
-" In normal mode, use \s to fuzzy-search with fzf in the current file
-" There was one other mapping (\swp) that made my \s really slow, because
-" vim waits a while to be sure that after \s there is no 'wp' coming.
-" Unmap \swp as I never use it anyway.
 
+
+" Alias some of fzf commands. 
+" In normal mode, use \s to fuzzy-search with fzf in the current buffer,
+" \t to fuzzy-search tags in the current project (using ctags), and \f
+" to search files in the current folder and subfolders. There was one 
+" other mapping (\swp) that made my \s really slow, because vim waits a 
+" while to be sure that after \s there is no 'wp' coming. Unmap \swp as 
+" I never use it anyway.
+
+nnoremap <leader>t :Tags<cr>
+nnoremap <leader>f :Files<cr>
 nnoremap <leader>s :BLines<cr>
 autocmd VimEnter * unmap \swp
 
