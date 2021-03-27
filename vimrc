@@ -53,6 +53,7 @@ Plugin 'jiangmiao/auto-pairs'                      " Inserts or deletes brackets
 Plugin 'rhysd/git-messenger.vim'                   " Show commit history under the cursor in popup window
 Plugin 'thinca/vim-localrc'                        " Loads vimrc files dedicated to local dirs/projects
 Plugin 'tpope/vim-speeddating'                     " Incrementing and decrementing dates with <C-A>
+Plugin 'mattn/calendar-vim'                        " Creates a calendar window with :CalendarH
 Plugin 'uguu-org/vim-matrix-screensaver'           " Follow the white rabbit...
 
 call vundle#end()
@@ -185,6 +186,8 @@ let g:indentLine_enabled = 1                       " Set to 0 if you want to dis
 let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible
 let g:indentLine_char = '┊'                        " Type of vertical line
 
+let g:calendar_monday=1                            " Let weeks start on a Monday rather than a Sunday
+let g:calendar_number_of_months=5                  " Show 5 weeks at the same time
 let g:indentLine_fileTypeExclude = ['tex']         " Indentline screws up working with LaTeX, because its conceal feature
 au Filetype tex setlocal conceallevel=0            "   auto-replace latex text. These two lines fix this problem.
 
