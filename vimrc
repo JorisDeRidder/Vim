@@ -160,7 +160,7 @@ let g:csv_comment = '#'                            " Lines starting with # are c
 let g:csv_start = 1                                " Only use lines 1-500 to analyse the file,
 let g:csv_end = 500                                "      this speeds up things.
 
-let g:tagbar_width = 31                            " Width of the tagbar
+let g:tagbar_width = 40                            " Width of the tagbar
 let g:tagbar_compact = 1                           " No short help at top of the tagbar
 
 let g:git_messenger_close_on_cursor_moved = v:false
