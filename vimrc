@@ -51,7 +51,7 @@ Plugin 'psliwka/vim-smoothie'                      " Smooth scrolling with ^f, ^
 Plugin 'Yggdroot/indentLine'                       " Show tiny vertical lines at each indent level
 Plugin 'markonm/traces.vim'                        " Range, pattern and substitute preview
 Plugin 'jiangmiao/auto-pairs'                      " Inserts or deletes brackets, parens, quotes in pairs
-Plugin 'rhysd/git-messenger.vim'                   " Show commit history under the cursor in popup window
+Plugin 'rhysd/git-messenger.vim'                   " Show commit history under the cursor in popup window using \gm
 Plugin 'thinca/vim-localrc'                        " Loads vimrc files dedicated to local dirs/projects
 Plugin 'tpope/vim-speeddating'                     " Incrementing and decrementing dates with <C-A>
 Plugin 'mattn/calendar-vim'                        " Creates a calendar window with :CalendarH
