@@ -174,7 +174,7 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": "{right-o
 let g:slime_python_ipython = 1                     " Solves the problem of the missing <CR> in ipython
 
 let g:gutentags_enabled = 1                                " Set to 0 if no ctags updates are desired
-let g:gutentags_ctags_extra_args = ['-R', '--extra=+f']    " -R: recursive, +f: include files
+let g:gutentags_ctags_extra_args = ['-R', '--extra=+f', '--exclude=build', '--exclude=docs', '--exclude=dependencies']    " -R: recursive, +f: include files
 
 let g:smoothie_base_speed = 20                     " Base speed in lines per second
 
