@@ -163,7 +163,7 @@ let g:csv_end = 500                                "      this speeds up things.
 let g:tagbar_width = 40                            " Width of the tagbar
 let g:tagbar_compact = 1                           " No short help at top of the tagbar
 
-let g:git_messenger_close_on_cursor_moved = v:false
+let g:git_messenger_close_on_cursor_moved = v:true
 
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
 let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
