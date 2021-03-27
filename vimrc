@@ -40,6 +40,7 @@ Plugin 'matze/vim-move'                            " Moving selected blocks of t
 Plugin 'pechorin/any-jump.vim'                     " List def and refs of word under cursor, project wide. Requires ripgrep.
 Plugin 'sickill/vim-pasta'                         " Adjust indentation of pasted text to that of the surrounding code
 Plugin 'justinmk/vim-sneak'                        " Jump to next/prev location with s{char}{char} / S{char}{char}
+Plugin 'gcmt/wildfire.vim'                         " (Un)select closest text object with <return> and <backspace>
 Plugin 'goerz/jupytext.vim'                        " Edit jupyter notebooks (requires jupytext CLI)
 Plugin 'tommcdo/vim-exchange'                      " Easy text swapping operator
 Plugin 'itchyny/vim-cursorword'                    " Underline the 'word' under the cursor
