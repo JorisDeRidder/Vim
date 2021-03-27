@@ -189,6 +189,8 @@ let g:indentLine_char = '┊'                        " Type of vertical line
 
 let g:calendar_monday=1                            " Let weeks start on a Monday rather than a Sunday
 let g:calendar_number_of_months=5                  " Show 5 weeks at the same time
+
+
 let g:indentLine_fileTypeExclude = ['tex']         " Indentline screws up working with LaTeX, because its conceal feature
 au Filetype tex setlocal conceallevel=0            "   auto-replace latex text. These two lines fix this problem.
 
@@ -298,6 +300,8 @@ augroup END
 " Abbreviate :Tagbar to :tb
 
 cabbrev tb Tagbar
+
+
 
 " A shortcut to select a block that just pasted
 
