@@ -45,8 +45,13 @@ Plug 'rmagatti/session-lens'                       " Allow to use telescope to s
 Plug 'mattn/calendar-vim'                          " Calendar view. :CalendarH
 Plug 'lervag/vimtex'                               " For editing LaTeX files
 Plug 'schickling/vim-bufonly'                      " Delete all buffers except current one with :BufOnly or :Bonly
-Plug 'tpope/vim-repeat'                            " Allow repeating all commands in a map, not just last command.
+Plug 'tpope/vim-repeat'                            " Allow repeating all commands in a map, not just the last command of that map.
 Plug 'tpope/vim-fugitive'                          " Allows to interact with Git.
+Plug 'airblade/vim-rooter'                         " Change working directory to project root
+Plug 'jpalardy/vim-slime'                          " To send text from neovim to a REPL.
+Plug 'kana/vim-textobj-user'                       " Supporting library required by vim-textobj-hydrogen
+Plug 'GCBallesteros/vim-textobj-hydrogen'          " New text objects: ah & ih. New motions: [h & ]h. Code cells start with # %%.
+Plug 'brooth/far.vim'                              " Find and replace in multiple files.
 
 call plug#end()
 
@@ -55,6 +60,7 @@ call plug#end()
 colorscheme sonokai
 set background=dark                                " Dark version of the color scheme
 set guifont=Andale\ Mono:h13                       " Font and font size
+
 
 filetype on                                        " Enable filetype recognition
 filetype plugin indent on                          " Set automatic indentation for the plugin files
@@ -99,6 +105,12 @@ set clipboard=unnamedplus                          " Yank to the system clipboar
 set completeopt=menuone,noinsert,noselect          " Better auto-completion experience
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣    " List all white space characters. Show with :set list
 
+set undofile                                       " Allow for persistent undo across neovim sessions
+if !isdirectory(expand("$HOME/.nvim/undodir"))     " Make sure the directory to store the undo info exists 
+  call mkdir(expand("$HOME/.nvim/undodir"), "p")
+endif
+set undodir=$HOME/.nvim/undodir                    " Centralize all undo information in one directory
+
 let mapleader = '\'                                " Use backslash to start custom shortcuts
 
 let g:airline#extensions#default#layout = [['a','b','c'],['x','y','z','error']] " Left & right section in status bar, no warnings.
@@ -128,6 +140,15 @@ nnoremap <leader>r <cmd>Telescope oldfiles<cr>
 nnoremap <leader>t <cmd>Telescope tags<cr>
 nnoremap <leader>d <cmd>Telescope git_status<cr>
 nnoremap <leader>c <cmd>Telescope colorscheme<cr>
+
+" Use \p to search for and switch to project sessions.
+
+nnoremap <leader>p :SearchSession<CR>
+
+" Use \j both in normal and visual (selection) mode to give an overview of the definitions and usages [AnyJump]
+
+nnoremap <leader>j :AnyJump<CR>
+xnoremap <leader>j :AnyJumpVisual<CR>
 
 " Specify what should be in the completion list
 
@@ -184,15 +205,11 @@ let g:vimtex_quickfix_autoclose_after_keystrokes=1 " Close quickfix window after
 let g:vimtex_quickfix_autojump = 0                 " Don't auto-jump to the first LaTeX error when there are compilation errors
 let g:vimtex_syntax_conceal_default = 0            " Don't conceal LaTeX commands like \alpha with a UTF character. 
 
+let g:rooter_targets = '*.yaml,*.cpp,*.h,*.py,*.rs'   " This file trigger a change-working-directory (no spaces in string)
+let g:rooter_patterns = ['.git']                      " This is how a project root can be recognized
 
-" Use \p to search for and switch to project sessions.
+let g:slime_target = "neovim"                         " Send text to REPL in neovim :terminal
 
-nnoremap <leader>p :SearchSession<CR>
-
-" Use \j both in normal and visual (selection) mode to give an overview of the definitions and usages [AnyJump]
-
-nnoremap <leader>j :AnyJump<CR>
-xnoremap <leader>j :AnyJumpVisual<CR>
 
 " Map shift-enter to insert an empty line in command mode
 
@@ -299,7 +316,5 @@ nvim_lsp.clangd.setup({ on_attach=on_attach })
 nvim_lsp.jedi_language_server.setup({ on_attach=on_attach })
 
 EOF
-
-
 
 
