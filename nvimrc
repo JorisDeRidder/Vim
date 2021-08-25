@@ -1,4 +1,3 @@
-
 set encoding=utf-8
 
 call plug#begin('~/.nvim/Plugins')
@@ -39,11 +38,9 @@ Plug 'JuliaEditorSupport/julia-vim'                " Julia support, e,g. LaTeX-t
 Plug 'rust-lang/rust.vim'                          " Syntax highlighting for the Rust language
 Plug 'goerz/jupytext.vim'                          " Edit jupyter notebooks (requires jupytext CLI)
 Plug 'chrisbra/Colorizer'                          " Colorize W3 colors, X11 color names, and hex color codes. :ColorToggle
-Plug 'vimwiki/vimwiki'                             " To create a personal wiki
-Plug 'rmagatti/auto-session'                       " To save/restore/delete sessions. A session is based on the cwd.
-Plug 'rmagatti/session-lens'                       " Allow to use telescope to search/switch to sessions.
+Plug 'vimwiki/vimwiki'                             " To create a personal wiki (\ww to load the Index)
 Plug 'mattn/calendar-vim'                          " Calendar view. :CalendarH
-Plug 'lervag/vimtex'                               " For editing LaTeX files
+Plug 'lervag/vimtex'                               " LaTeX: \ll to start compiling. \lc to clear auxilliary files.
 Plug 'schickling/vim-bufonly'                      " Delete all buffers except current one with :BufOnly or :Bonly
 Plug 'tpope/vim-repeat'                            " Allow repeating all commands in a map, not just the last command of that map.
 Plug 'tpope/vim-fugitive'                          " Allows to interact with Git.
@@ -52,6 +49,8 @@ Plug 'jpalardy/vim-slime'                          " To send text from neovim to
 Plug 'kana/vim-textobj-user'                       " Supporting library required by vim-textobj-hydrogen
 Plug 'GCBallesteros/vim-textobj-hydrogen'          " New text objects: ah & ih. New motions: [h & ]h. Code cells start with # %%.
 Plug 'brooth/far.vim'                              " Find and replace in multiple files.
+Plug 'MattesGroeger/vim-bookmarks'                 " Toggling bookmarks per line. :BookmarkToggle :BookmarkAnnotate <TEXT>
+Plug 'tom-anders/telescope-vim-bookmarks.nvim'     " Telescope interface to vim-bookmarks
 
 call plug#end()
 
@@ -59,7 +58,7 @@ call plug#end()
 
 colorscheme sonokai
 set background=dark                                " Dark version of the color scheme
-set guifont=Andale\ Mono:h13                       " Font and font size
+set guifont=Andale\ Mono:h14                       " Font and font size
 
 
 filetype on                                        " Enable filetype recognition
@@ -140,10 +139,8 @@ nnoremap <leader>r <cmd>Telescope oldfiles<cr>
 nnoremap <leader>t <cmd>Telescope tags<cr>
 nnoremap <leader>d <cmd>Telescope git_status<cr>
 nnoremap <leader>c <cmd>Telescope colorscheme<cr>
+nnoremap <leader>b <cmd>Telescope vim_bookmarks all<cr>
 
-" Use \p to search for and switch to project sessions.
-
-nnoremap <leader>p :SearchSession<CR>
 
 " Use \j both in normal and visual (selection) mode to give an overview of the definitions and usages [AnyJump]
 
@@ -286,6 +283,19 @@ set wildignore+=*.pyc                            " Python byte code
 " in normal and visual mode, and [ ] are the cursor keys in insert mode).
 
 set whichwrap+=<,>,h,l,[,]
+
+" Configuration for neovide
+
+let g:neovide_cursor_vfx_mode = "sonicboom"
+
+" Vim-bookmarks: remove the default (intruding) keymaps
+
+let g:bookmark_no_default_key_mappings = 1
+let g:bookmark_auto_save = 1                       " Stored in ~/.vim-bookmarks
+
+" Load the telescope-vim-bookmarks extension
+
+lua require('telescope').load_extension('vim_bookmarks')
 
 " Configuration for nvim-lspconfig
 
