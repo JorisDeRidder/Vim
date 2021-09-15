@@ -8,13 +8,13 @@ Plug 'steelsojka/completion-buffers'               " Add words from the current 
 Plug 'kristijanhusak/completion-tags'              " Add words from the tag list in the completion list
 Plug 'sainnhe/sonokai'                             " The 'sonakai' color scheme
 Plug 'morhetz/gruvbox'                             " The 'gruvbox' color scheme
-Plug 'vim-airline/vim-airline'                     " To have a colorful status line
-Plug 'vim-airline/vim-airline-themes'              " To choose a specific theme for the status line
+Plug 'hoob3rt/lualine.nvim'                        " To have a colorful status line
+Plug 'kyazdani42/nvim-web-devicons'                " Add devicons 
 Plug 'nvim-lua/popup.nvim'                         " Allows for popups to appear
 Plug 'nvim-lua/plenary.nvim'                       " Collections of lua functions.
 Plug 'nvim-telescope/telescope.nvim'               " Search, find, and filter. Requires popup and plenary.
 Plug 'unblevable/quick-scope'                      " Mark jump points for f or F
-Plug 'justinmk/vim-sneak'                          " Jump to next/prev location with s{char}{char} / S{char}{char}
+Plug 'ggandor/lightspeed.nvim'                     " Jump to next/prev location with s{char}{char} / S{char}{char}
 Plug 'ap/vim-buftabline'                           " To configure a buffer tab line
 Plug 'mhinz/vim-signify'                           " Show file changes. Works with git, mercurial,...
 Plug 'pechorin/any-jump.vim'                       " List def and refs of word under cursor, project wide. Requires ripgrep.
@@ -51,6 +51,7 @@ Plug 'GCBallesteros/vim-textobj-hydrogen'          " New text objects: ah & ih. 
 Plug 'brooth/far.vim'                              " Find and replace in multiple files.
 Plug 'MattesGroeger/vim-bookmarks'                 " Toggling bookmarks per line. :BookmarkToggle :BookmarkAnnotate <TEXT>
 Plug 'tom-anders/telescope-vim-bookmarks.nvim'     " Telescope interface to vim-bookmarks
+Plug 'nvim-telescope/telescope-fzy-native.nvim'    " Use fzy sorter instead of telescope's default one
 
 call plug#end()
 
@@ -58,7 +59,8 @@ call plug#end()
 
 colorscheme sonokai
 set background=dark                                " Dark version of the color scheme
-set guifont=Andale\ Mono:h14                       " Font and font size
+" set guifont=Andale\ Mono:h14                       " Font and font size
+set guifont=AurulentSansMono-Regular\ Nerd:h14     " Font and font size
 
 
 filetype on                                        " Enable filetype recognition
@@ -86,7 +88,7 @@ set confirm                                        " Ask to save changes
 set visualbell                                     " Use visual bell instead of beeping
 set mouse=a                                        " Enable use of the mouse for all modes
 set showcmd                                        " Show information about the current command going on
-set nohidden                                       " When closing a tab, remove the buffer
+set hidden                                         " To avoid discarding a terminal when closed.
 set autoread                                       " Watch for file changes
 set autowrite                                      " Automatically save when switching/abandoning a buffer
 set report=0                                       " Always report the number of lines that were changed
@@ -112,11 +114,6 @@ set undodir=$HOME/.nvim/undodir                    " Centralize all undo informa
 
 let mapleader = '\'                                " Use backslash to start custom shortcuts
 
-let g:airline#extensions#default#layout = [['a','b','c'],['x','y','z','error']] " Left & right section in status bar, no warnings.
-
-let g:sneak#label = 1                                " Allow to use sneak with labels overlaying the text, like Easymotion
-let g:sneak#target_labels=";sftunq/SFGHLTUNRMQZ?01"  " Labels that sneak will use to highlight your search combo
-
 let g:buftabline_show=1                            " Only show tabline when there are at least 2 buffers
 let g:buftabline_numbers=2                         " Give each buffer an ordinal nr != its buffer number
 let g:buftabline_separators='|'                    " Separator between buffer names in tabline
@@ -133,12 +130,12 @@ nmap <leader>9 <Plug>BufTabLine.Go(9)              " Use \9 to switch to buffer 
 nnoremap <silent> <leader>lg :LazyGit<CR>
 
 nnoremap <leader>s <cmd>Telescope current_buffer_fuzzy_find<cr>
-nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files({previewer=false})<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
 nnoremap <leader>r <cmd>Telescope oldfiles<cr>
 nnoremap <leader>t <cmd>Telescope tags<cr>
 nnoremap <leader>d <cmd>Telescope git_status<cr>
-nnoremap <leader>c <cmd>Telescope colorscheme<cr>
+nnoremap <leader>c <cmd>Telescope git_bcommits<cr>
 nnoremap <leader>b <cmd>Telescope vim_bookmarks all<cr>
 
 
@@ -293,9 +290,33 @@ let g:neovide_cursor_vfx_mode = "sonicboom"
 let g:bookmark_no_default_key_mappings = 1
 let g:bookmark_auto_save = 1                       " Stored in ~/.vim-bookmarks
 
+" Start lualine (status line)
+
+lua << EOF
+require'lualine'.setup {
+    options = {
+        icons_enabled=false,
+        theme='oceanicnext'
+    },
+    sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch'},
+        lualine_c = {'filename'},
+        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
+    }
+}
+
+EOF
+
 " Load the telescope-vim-bookmarks extension
 
 lua require('telescope').load_extension('vim_bookmarks')
+
+" Use the fzy sorter rather than the default Telescope sorter
+
+lua require('telescope').load_extension('fzy_native')
 
 " Configuration for nvim-lspconfig
 
@@ -326,5 +347,4 @@ nvim_lsp.clangd.setup({ on_attach=on_attach })
 nvim_lsp.jedi_language_server.setup({ on_attach=on_attach })
 
 EOF
-
 
