@@ -132,10 +132,19 @@ nnoremap <leader>r <cmd>History<cr>
 nnoremap <leader>t <cmd>Tags<cr>
 nnoremap <leader>c <cmd>History:<cr>
 
+" Easy cycling between windows using the Alt and the arrow keys in normal mode
+" Can't use Ctrl because OSX already claims <ctrl>-Right.
+
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
+
 " Change the default values of the fzf.vim preview window
 
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.65, 'border': 'rounded' } }
 let g:fzf_colors = { 'border': ['fg', 'Normal'] }
+
 " Use \j both in normal and visual (selection) mode to give an overview of the definitions and usages [AnyJump]
 
 nnoremap <leader>j :AnyJump<CR>
@@ -162,6 +171,7 @@ let g:tagbar_compact = 1                           " No short help at top of the
 
 let g:gutentags_enabled = 1                                " Set to 0 if no ctags updates are desired
 let g:gutentags_ctags_extra_args = ['-R', '--extra=+f', '--exclude=build', '--exclude=docs', '--exclude=dependencies']    " -R: recursive, +f: include files
+" let g:gutentags_trace = 1                          " To debug in case of trouble
 
 let g:move_key_modifier = 'C'                      " <Ctrl-k> <Ctrl-j> <Ctrl-h> and <Ctrl-l> allow to move a selected block of text
 
@@ -306,7 +316,6 @@ require'lualine'.setup {
 }
 
 EOF
-
 
 
 " Configuration for nvim-lspconfig
