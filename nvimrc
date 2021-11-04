@@ -48,6 +48,7 @@ Plug 'brooth/far.vim'                              " Find and replace in multipl
 Plug 'MattesGroeger/vim-bookmarks'                 " Toggling bookmarks per line. :BookmarkToggle :BookmarkAnnotate <TEXT>
 Plug 'junegunn/fzf'                                " Fuzzy finder - the machinery 
 Plug 'junegunn/fzf.vim'                            " Vim interface to fzf (currently faster than Telescope)
+Plug 'machakann/vim-highlightedyank'               " Highlight the yanked text
 
 call plug#end()
 
@@ -209,8 +210,10 @@ let g:vimtex_syntax_conceal_default = 0            " Don't conceal LaTeX command
 let g:rooter_targets = '*.yaml,*.cpp,*.h,*.py,*.rs'   " This file trigger a change-working-directory (no spaces in string)
 let g:rooter_patterns = ['.git']                      " This is how a project root can be recognized
 
-let g:slime_target = "neovim"                         " Send text to REPL in neovim :terminal
+let g:slime_target = "neovim"                      " Send text to REPL in neovim :terminal
 
+let g:highlightedyank_highlight_duration = 2000    " How long a yanked text should stay highlighted
+highlight HighlightedyankRegion cterm=reverse gui=reverse   " Make the highlight better visible
 
 " Map shift-enter to insert an empty line in command mode
 
