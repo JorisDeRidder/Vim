@@ -12,7 +12,6 @@ Plug 'hoob3rt/lualine.nvim'                        " To have a colorful status l
 Plug 'kyazdani42/nvim-web-devicons'                " Add devicons 
 Plug 'nvim-lua/popup.nvim'                         " Allows for popups to appear
 Plug 'nvim-lua/plenary.nvim'                       " Collections of lua functions.
-Plug 'nvim-telescope/telescope.nvim'               " Search, find, and filter. Requires popup and plenary.
 Plug 'unblevable/quick-scope'                      " Mark jump points for f or F
 Plug 'ggandor/lightspeed.nvim'                     " Jump to next/prev location with s{char}{char} / S{char}{char}
 Plug 'ap/vim-buftabline'                           " To configure a buffer tab line
@@ -45,13 +44,10 @@ Plug 'schickling/vim-bufonly'                      " Delete all buffers except c
 Plug 'tpope/vim-repeat'                            " Allow repeating all commands in a map, not just the last command of that map.
 Plug 'tpope/vim-fugitive'                          " Allows to interact with Git.
 Plug 'airblade/vim-rooter'                         " Change working directory to project root
-Plug 'jpalardy/vim-slime'                          " To send text from neovim to a REPL.
-Plug 'kana/vim-textobj-user'                       " Supporting library required by vim-textobj-hydrogen
-Plug 'GCBallesteros/vim-textobj-hydrogen'          " New text objects: ah & ih. New motions: [h & ]h. Code cells start with # %%.
-Plug 'brooth/far.vim'                              " Find and replace in multiple files.
+Plug 'brooth/far.vim'                              " Find and replace in multiple files. E.g. :F foo **/*.py or :Far foo bar **/*.py
 Plug 'MattesGroeger/vim-bookmarks'                 " Toggling bookmarks per line. :BookmarkToggle :BookmarkAnnotate <TEXT>
-Plug 'tom-anders/telescope-vim-bookmarks.nvim'     " Telescope interface to vim-bookmarks
-Plug 'nvim-telescope/telescope-fzy-native.nvim'    " Use fzy sorter instead of telescope's default one
+Plug 'junegunn/fzf'                                " Fuzzy finder - the machinery 
+Plug 'junegunn/fzf.vim'                            " Vim interface to fzf (currently faster than Telescope)
 
 call plug#end()
 
@@ -129,16 +125,17 @@ nmap <leader>9 <Plug>BufTabLine.Go(9)              " Use \9 to switch to buffer 
 
 nnoremap <silent> <leader>lg :LazyGit<CR>
 
-nnoremap <leader>s <cmd>Telescope current_buffer_fuzzy_find<cr>
-nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files({previewer=false})<cr>
-nnoremap <leader>g <cmd>Telescope live_grep<cr>
-nnoremap <leader>r <cmd>Telescope oldfiles<cr>
-nnoremap <leader>t <cmd>Telescope tags<cr>
-nnoremap <leader>d <cmd>Telescope git_status<cr>
-nnoremap <leader>c <cmd>Telescope git_bcommits<cr>
-nnoremap <leader>b <cmd>Telescope vim_bookmarks all<cr>
+nnoremap <leader>s <cmd>BLines<cr>
+nnoremap <leader>f <cmd>Files<cr>
+nnoremap <leader>g <cmd>Rg<cr>
+nnoremap <leader>r <cmd>History<cr>
+nnoremap <leader>t <cmd>Tags<cr>
+nnoremap <leader>c <cmd>History:<cr>
 
+" Change the default values of the fzf.vim preview window
 
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.65, 'border': 'rounded' } }
+let g:fzf_colors = { 'border': ['fg', 'Normal'] }
 " Use \j both in normal and visual (selection) mode to give an overview of the definitions and usages [AnyJump]
 
 nnoremap <leader>j :AnyJump<CR>
@@ -310,13 +307,7 @@ require'lualine'.setup {
 
 EOF
 
-" Load the telescope-vim-bookmarks extension
 
-lua require('telescope').load_extension('vim_bookmarks')
-
-" Use the fzy sorter rather than the default Telescope sorter
-
-lua require('telescope').load_extension('fzy_native')
 
 " Configuration for nvim-lspconfig
 
@@ -338,6 +329,13 @@ local on_attach = function(client, bufnr)
 
     -- Mappings.
     local opts = { noremap=true, silent=true }
+
+    buf_set_keymap('n', 'gD',       '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    buf_set_keymap('n', 'gd',       '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'gi',       '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', 'K',        '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', '<C-s>',    '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 end
 
 -- Enable analyzers
