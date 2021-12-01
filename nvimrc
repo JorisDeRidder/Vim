@@ -13,7 +13,6 @@ Plug 'kyazdani42/nvim-web-devicons'                " Add devicons
 Plug 'nvim-lua/popup.nvim'                         " Allows for popups to appear
 Plug 'nvim-lua/plenary.nvim'                       " Collections of lua functions.
 Plug 'unblevable/quick-scope'                      " Mark jump points for f or F
-Plug 'ggandor/lightspeed.nvim'                     " Jump to next/prev location with s{char}{char} / S{char}{char}
 Plug 'ap/vim-buftabline'                           " To configure a buffer tab line
 Plug 'mhinz/vim-signify'                           " Show file changes. Works with git, mercurial,...
 Plug 'pechorin/any-jump.vim'                       " List def and refs of word under cursor, project wide. Requires ripgrep.
@@ -21,7 +20,7 @@ Plug 'tpope/vim-surround'                          " To wrap text in brackets, p
 Plug 'michaeljsmith/vim-indent-object'             " Text object for indented blocks
 Plug 'vim-scripts/argtextobj.vim'                  " Text object for function arguments
 Plug 'majutsushi/tagbar'                           " Shows a list of tags in a tagbar
-Plug 'tommcdo/vim-exchange'                        " Easy text swapping operator
+Plug 'tommcdo/vim-exchange'                        " Easy text swapping operator: cx{motion} and .
 Plug 'sickill/vim-pasta'                           " Adjust indentation of pasted text to that of the surrounding code
 Plug 'markonm/traces.vim'                          " Range, pattern and substitute preview
 Plug 'kdheepak/lazygit.nvim'                       " Allows to call lazygit from inside neovim
@@ -29,7 +28,7 @@ Plug 'Yggdroot/indentLine'                         " Show tiny vertical lines at
 Plug 'ntpeters/vim-better-whitespace'              " Highlight and fix trailing whitespace.
 Plug 'tomtom/tcomment_vim'                         " Easy (un)commenting of code
 Plug 'matze/vim-move'                              " Moving selected blocks of text
-Plug 'godlygeek/tabular'                           " Tabularizing text, e.g. on '=' char
+Plug 'godlygeek/tabular'                           " Tabularizing text, e.g. on '=' char with :Tab/=
 Plug 'itchyny/vim-cursorword'                      " Underline the 'word' under the cursor
 Plug 'ludovicchabant/vim-gutentags'                " Manages ctags files
 Plug 'mechatroner/rainbow_csv'                     " Visualizing and querying CSV files
@@ -49,10 +48,10 @@ Plug 'MattesGroeger/vim-bookmarks'                 " Toggling bookmarks per line
 Plug 'junegunn/fzf'                                " Fuzzy finder - the machinery 
 Plug 'junegunn/fzf.vim'                            " Vim interface to fzf (currently faster than Telescope)
 Plug 'machakann/vim-highlightedyank'               " Highlight the yanked text
+Plug 'phaazon/hop.nvim'                            " Easy navigation in the visible buffer. Use 's <char1> <char2>' to  
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Advanced syntax tree parser
 
 call plug#end()
-
-
 
 colorscheme sonokai
 set background=dark                                " Dark version of the color scheme
@@ -74,7 +73,10 @@ set cindent                                        " C-style auto-indentation
 set cinkeys-=0#                                    " Avoid bad indent of # comment lines in Python
 set indentkeys-=0#                                 " Avoid bad indent of # comment lines in Python
 set shiftwidth=4                                   " Indentation should always be done using 4 spaces
-set textwidth=150                                  " Hard-break lines after 130 characters
+set textwidth=130                                  " Hard-break lines after 130 characters
+set colorcolumn=130                                " Highlight column 130
+set cursorline                                     " Highlight the line where the cursor is
+set cursorcolumn                                   " Highlight the column where the cursor is
 set showmatch                                      " Show matching pairs of brackets
 set mat=3                                          " Blink 3 tenths of a second when matching
 set incsearch                                      " Incremental search = search starts from 1st char you type
@@ -89,16 +91,18 @@ set hidden                                         " To avoid discarding a termi
 set autoread                                       " Watch for file changes
 set autowrite                                      " Automatically save when switching/abandoning a buffer
 set report=0                                       " Always report the number of lines that were changed
-set scrolloff=10                                   " When scrolling, keep cursor 10 lines from top or bottom
+set scrolloff=2                                    " When scrolling, keep cursor 2 lines from top or bottom
 set shortmess+=I                                   " Do not show the intro message at start-up
 set shortmess+=c                                   " No redudant messages when using auto-completion
 set laststatus=2                                   " Always show the status line
-set nowrap                                         " Don't wrap too long lines
+set nowrap                                         " Don't wrap too long lines by default
 set relativenumber                                 " Line numbering is relative to the current line
 set backspace=indent,eol,start                     " Allow backspacing over autoindent, line breaks & start of insert action
 set foldmethod=indent                              " Use indentation to decide how to fold
 set foldlevel=99                                   " No folding at all when opening a file
 set lazyredraw                                     " Don't update the display while executing macros
+set splitright                                     " When using :vsplit, put new window right of the current one
+set splitbelow                                     " When using :split, put new window below the current one
 set clipboard=unnamedplus                          " Yank to the system clipboard instead of vim default register
 set completeopt=menuone,noinsert,noselect          " Better auto-completion experience
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣    " List all white space characters. Show with :set list
@@ -124,7 +128,18 @@ nmap <leader>7 <Plug>BufTabLine.Go(7)              " Use \7 to switch to buffer 
 nmap <leader>8 <Plug>BufTabLine.Go(8)              " Use \8 to switch to buffer 8
 nmap <leader>9 <Plug>BufTabLine.Go(9)              " Use \9 to switch to buffer 9
 
-nnoremap <silent> <leader>lg :LazyGit<CR>
+nnoremap <silent> <leader>lg :LazyGit<CR>          " Coolest git client available
+
+" Allow the . operator to execute once for each line of a visual selection
+
+vnoremap . :normal .<CR>
+
+" \s : _S_earch the current buffer
+" \f : Find a _f_ile in current and sub-directories
+" \g : _G_rep all files in current and sub-directories, using ripgrep. 
+" \r : Search in _r_ecent files
+" \t : Search in _t_ags in current project (using ctags)
+" \c : Search in recent vim _c_ommands. 
 
 nnoremap <leader>s <cmd>BLines<cr>
 nnoremap <leader>f <cmd>Files<cr>
@@ -136,10 +151,10 @@ nnoremap <leader>c <cmd>History:<cr>
 " Easy cycling between windows using the Alt and the arrow keys in normal mode
 " Can't use Ctrl because OSX already claims <ctrl>-Right.
 
-nmap <silent> <A-Up> :wincmd k<CR>
-nmap <silent> <A-Down> :wincmd j<CR>
-nmap <silent> <A-Left> :wincmd h<CR>
-nmap <silent> <A-Right> :wincmd l<CR>
+nmap <silent> <A-Up> :wincmd k<CR>                 " Move to window up: Alt-arrow-up 
+nmap <silent> <A-Down> :wincmd j<CR>               " Move to window down: Alt-arrow-down
+nmap <silent> <A-Left> :wincmd h<CR>               " Move to window left: Alt-arrow-left
+nmap <silent> <A-Right> :wincmd l<CR>              " Move to window right: Alt-arrow-right
 
 " Change the default values of the fzf.vim preview window
 
@@ -205,15 +220,19 @@ let g:vimtex_quickfix_mode = 2                     " Open quickfix only when the
 let g:vimtex_quickfix_open_on_warning = 0          " Only open the quickfix on errors, not warnings
 let g:vimtex_quickfix_autoclose_after_keystrokes=1 " Close quickfix window after 1 motion (e.g. cursor moved)
 let g:vimtex_quickfix_autojump = 0                 " Don't auto-jump to the first LaTeX error when there are compilation errors
-let g:vimtex_syntax_conceal_default = 0            " Don't conceal LaTeX commands like \alpha with a UTF character. 
+" let g:vimtex_syntax_conceal_default = 0            " Don't conceal LaTeX commands like \alpha with a UTF character. 
 
 let g:rooter_targets = '*.yaml,*.cpp,*.h,*.py,*.rs'   " This file trigger a change-working-directory (no spaces in string)
 let g:rooter_patterns = ['.git']                      " This is how a project root can be recognized
 
-let g:slime_target = "neovim"                      " Send text to REPL in neovim :terminal
-
-let g:highlightedyank_highlight_duration = 2000    " How long a yanked text should stay highlighted
+let g:highlightedyank_highlight_duration = 1000    " How long a yanked text should stay highlighted
 highlight HighlightedyankRegion cterm=reverse gui=reverse   " Make the highlight better visible
+
+
+" Map Hop's navigation commands
+
+nnoremap s :HopChar2<CR>
+nnoremap S :HopPattern<CR>
 
 " Map shift-enter to insert an empty line in command mode
 
@@ -235,13 +254,6 @@ cabbrev tb Tagbar
 
 autocmd VimResized * wincmd =
 
-" Show a cursorline in the active buffer.
-
-augroup cline
-    au!
-    au VimEnter,WinEnter,BufWinEnter,InsertLeave * setlocal cursorline
-    au WinLeave,InsertEnter * setlocal nocursorline
-augroup END
 
 " I keep on mistyping :W instead of :w to write a file, so let's alias it.
 
@@ -252,9 +264,9 @@ command! Wq wq
 " E.g. When typing in Python # xxx <cr> a new comment symbol #
 " is inserted on the next line by default. I dislike it.
 
-" The following allows to make a selection, and hit @ to run a macro on all lines
-
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" The following allows to make a selection, and hit @ to run a macro on all lines
 
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
@@ -284,7 +296,6 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX specific
 set wildignore+=*.pyc                            " Python byte code
 
-
 " Configure the left and right arrow keys, as well as h and l, so that they
 " wrap when used at beginning or end of lines. ( < > are the cursor keys used
 " in normal and visual mode, and [ ] are the cursor keys in insert mode).
@@ -295,10 +306,65 @@ set whichwrap+=<,>,h,l,[,]
 
 let g:neovide_cursor_vfx_mode = "sonicboom"
 
-" Vim-bookmarks: remove the default (intruding) keymaps
+" The standard way of inserting greek/math letters in insert mode is rather
+" tedious. Define the following mappings to facilitate this. 
+" E.g. \gd in insert mode stands for _g_reek letter _d_elta
+" Do not define these in LaTeX file that are littered with \commands.
 
-let g:bookmark_no_default_key_mappings = 1
-let g:bookmark_auto_save = 1                       " Stored in ~/.vim-bookmarks
+fun! DefineGreekLetters()
+    if exists('b:doNotDefineGreekLetters')
+        return
+    endif
+    inoremap <leader>gG Γ
+    inoremap <leader>gD Δ
+    inoremap <leader>gH Θ
+    inoremap <leader>gL Λ
+    inoremap <leader>gC Ξ  
+    inoremap <leader>gP Π 
+    inoremap <leader>gS Σ
+    inoremap <leader>gU Υ
+    inoremap <leader>gF Φ
+    inoremap <leader>gQ Ψ
+    inoremap <leader>gW Ω
+    inoremap <leader>ga α
+    inoremap <leader>gb β
+    inoremap <leader>gg γ
+    inoremap <leader>gd δ
+    inoremap <leader>ge ε
+    inoremap <leader>gz ζ
+    inoremap <leader>gy η
+    inoremap <leader>gh θ
+    inoremap <leader>gi ι
+    inoremap <leader>gk κ
+    inoremap <leader>gl λ
+    inoremap <leader>gm μ
+    inoremap <leader>gn ν
+    inoremap <leader>gc ξ  
+    inoremap <leader>go ο 
+    inoremap <leader>gp π 
+    inoremap <leader>gr ρ
+    inoremap <leader>gs σ
+    inoremap <leader>gt τ
+    inoremap <leader>gu υ
+    inoremap <leader>gf φ
+    inoremap <leader>gx χ
+    inoremap <leader>gq ψ
+    inoremap <leader>gw ω
+    inoremap <leader>partial ∂ 
+    inoremap <leader>nabla ∇
+endfun
+
+autocmd FileType tex let b:doNotDefineGreekLetters=1 
+autocmd BufRead,BufNew * call DefineGreekLetters()
+
+
+
+" Setup of Hop motions
+
+lua << EOF
+require'hop'.setup()
+EOF
+
 
 " Start lualine (status line)
 
@@ -355,6 +421,17 @@ end
 nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
 nvim_lsp.clangd.setup({ on_attach=on_attach })
 nvim_lsp.jedi_language_server.setup({ on_attach=on_attach })
+
+EOF
+
+
+
+
+" Set up Treesitter
+
+lua <<EOF
+
+require'nvim-treesitter.configs'.setup { }
 
 EOF
 
