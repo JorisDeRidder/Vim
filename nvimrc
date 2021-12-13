@@ -30,7 +30,7 @@ Plug 'markonm/traces.vim'                          " Range, pattern and substitu
 Plug 'kdheepak/lazygit.nvim'                       " Allows to call lazygit from inside neovim
 Plug 'Yggdroot/indentLine'                         " Show tiny vertical lines at each indent level
 Plug 'ntpeters/vim-better-whitespace'              " Highlight and fix trailing whitespace.
-Plug 'tomtom/tcomment_vim'                         " Easy (un)commenting of code
+Plug 'b3nj5m1n/kommentary'                         " Easy (un)commenting of code
 Plug 'matze/vim-move'                              " Moving selected blocks of text
 Plug 'andymass/vim-matchup'                        " Highlight, navigate and operate on sets of matching text. E.g. if-then-else
 Plug 'godlygeek/tabular'                           " Tabularizing text, e.g. on '=' char with :Tab/=
