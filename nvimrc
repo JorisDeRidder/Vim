@@ -3,9 +3,13 @@ set encoding=utf-8
 call plug#begin('~/.nvim/Plugins')
 
 Plug 'neovim/nvim-lspconfig'                       " Tools for Neovim's Language Server Protocol
-Plug 'nvim-lua/completion-nvim'                    " Auto-completion framework for built-in LSP
-Plug 'steelsojka/completion-buffers'               " Add words from the current buffer as completion source
-Plug 'kristijanhusak/completion-tags'              " Add words from the tag list in the completion list
+Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}    " Completion using the LSP client. Used by nvim-cmp.
+Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}      " Completion with words from the buffer. Used by nvim-cmp
+Plug 'hrsh7th/cmp-path', {'branch': 'main'}        " Completion with filesystem paths. Used by nvim-cmp
+Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}        " Auto-completion
+Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}       " Auto-completion with snippets. Used by nvim-cmp
+Plug 'hrsh7th/vim-vsnip'                           " Snippets, using the LSP. Used by cmp-vsnip.
+Plug 'ray-x/lsp_signature.nvim'                    " Show the signature of the function you're writing
 Plug 'sainnhe/sonokai'                             " The 'sonakai' color scheme
 Plug 'morhetz/gruvbox'                             " The 'gruvbox' color scheme
 Plug 'hoob3rt/lualine.nvim'                        " To have a colorful status line
@@ -28,6 +32,7 @@ Plug 'Yggdroot/indentLine'                         " Show tiny vertical lines at
 Plug 'ntpeters/vim-better-whitespace'              " Highlight and fix trailing whitespace.
 Plug 'tomtom/tcomment_vim'                         " Easy (un)commenting of code
 Plug 'matze/vim-move'                              " Moving selected blocks of text
+Plug 'andymass/vim-matchup'                        " Highlight, navigate and operate on sets of matching text. E.g. if-then-else
 Plug 'godlygeek/tabular'                           " Tabularizing text, e.g. on '=' char with :Tab/=
 Plug 'itchyny/vim-cursorword'                      " Underline the 'word' under the cursor
 Plug 'ludovicchabant/vim-gutentags'                " Manages ctags files
@@ -119,14 +124,6 @@ set undodir=$HOME/.nvim/undodir                    " Centralize all undo informa
 
 let mapleader = '\'                                " Use backslash to start custom shortcuts
 
-" Down the rabbit hole: no arrow keys, only the home keys
-
-" nnoremap <up> <nop>
-" nnoremap <down> <nop>
-" inoremap <up> <nop>
-" inoremap <down> <nop>
-" inoremap <left> <nop>
-" inoremap <right> <nop>
 
 " Configure the tabline
 
@@ -181,21 +178,6 @@ let g:fzf_colors = { 'border': ['fg', 'Normal'] }
 nnoremap <leader>j :AnyJump<CR>
 xnoremap <leader>j :AnyJumpVisual<CR>
 
-" Specify what should be in the completion list
-
-let g:completion_chain_complete_list = { 'default' : [{'complete_items' : ['lsp', 'tags', 'buffers']}, ]}
-let g:completion_sorting = "none"
-
-" Use <Tab> and <S-Tab> to navigate through popup menu
-
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Use <Tab> as trigger keys
-
-imap <Tab> <Plug>(completion_smart_tab)
-imap <S-Tab> <Plug>(completion_smart_s_tab)
-
 
 let g:tagbar_width = 40                            " Width of the tagbar
 let g:tagbar_compact = 1                           " No short help at top of the tagbar
@@ -248,14 +230,6 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse   " Make the highlight
 
 nnoremap s :HopChar2<CR>
 nnoremap S :HopPattern<CR>
-
-" Map shift-enter to insert an empty line in command mode
-
-nmap <S-Enter> o<Esc>
-
-" Map shift-space to insert one space in command mode
-
-nmap <S-Space> i <Esc>
 
 " Map <space> as a shortcut to remove search highlights
 
@@ -316,10 +290,6 @@ set wildignore+=*.pyc                            " Python byte code
 " in normal and visual mode, and [ ] are the cursor keys in insert mode).
 
 set whichwrap+=<,>,h,l,[,]
-
-" Configuration for neovide
-
-let g:neovide_cursor_vfx_mode = "sonicboom"
 
 " The standard way of inserting greek/math letters in insert mode is rather
 " tedious. Define the following mappings to facilitate this. 
@@ -402,16 +372,92 @@ require'lualine'.setup {
 EOF
 
 
-" Configuration for nvim-lspconfig
+" LSP Configuration
 
 lua << EOF
+
+local cmp = require'cmp'
 local nvim_lsp = require('lspconfig')
 
--- function to attach completion when setting up lsp
+-- First the automcompletion setup
 
-local on_attach = function(client)
-    require'completion'.on_attach(client)
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
 end
+
+local feedkey = function(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+
+cmp.setup({
+  completion = {
+      autocomplete = false                       -- Completion yes, but no autocompletion
+  },
+  snippet = {
+    -- Required by nvim-cmp. 
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = {
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+    ['<CR>']  = cmp.mapping.confirm({ 
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+    }),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+            cmp.select_next_item()
+        elseif vim.fn["vsnip#available"](1) == 1 then
+            feedkey("<Plug>(vsnip-expand-or-jump)", "")
+        elseif has_words_before() then
+            cmp.complete()
+        else
+            fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        end
+    end, { "i", "s" }),
+
+    ["<S-Tab>"] = cmp.mapping(function()
+        if cmp.visible() then
+            cmp.select_prev_item()
+        elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+            feedkey("<Plug>(vsnip-jump-prev)", "")
+        end
+    end, { "i", "s" }),
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },
+  }, {
+  { name = 'buffer'}
+  })
+})
+
+-- Enable completing paths in :
+
+cmp.setup.cmdline(':', {
+  sources = cmp.config.sources({
+    { name = 'path' }
+  })
+})
+
+-- Get signatures (and only signatures) when in an argument list
+
+local signature_config = {
+    bind = true,
+    doc_lines = 0,
+    hint_prefix = "",
+    floating_window_above_cur_line = false,
+    hi_parameter = "LspSignatureActiveParameter",          -- Alternative is "IncSearch"
+    handler_opts = { border = "rounded" },
+    toggle_key = '<C-s>',
+}
+
+require "lsp_signature".setup(signature_config)
 
 -- Use an on_attach function to only map the following keys 
 -- after the language server attaches to the current buffer
@@ -419,22 +465,36 @@ end
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    
+    --Enable completion triggered by the vim  default completion <c-x><c-o>
 
-    -- Mappings.
+    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    -- Mappings
+
     local opts = { noremap=true, silent=true }
 
     buf_set_keymap('n', 'gD',       '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gd',       '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     buf_set_keymap('n', 'gi',       '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', 'gr',       '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', 'K',        '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', '<C-s>',    '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', '<C-k>',    '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+
+
 end
 
--- Enable analyzers
+
+-- Setup the analyzers
+
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+-- Language server for Rust 
 
 nvim_lsp.rust_analyzer.setup({
     on_attach=on_attach,
+    flags = { debounce_text_changes = 150, },
     settings = {
         ["rust-analyzer"] = {
             assist = {
@@ -448,16 +508,28 @@ nvim_lsp.rust_analyzer.setup({
                 enable = true
             },
         }
-    }
+    },
+    capabilities = capabilities
 })
 
-nvim_lsp.clangd.setup({ on_attach=on_attach })
-nvim_lsp.jedi_language_server.setup({ on_attach=on_attach })
+-- Language server for C++
+
+nvim_lsp.clangd.setup({ 
+    on_attach=on_attach,
+    capabilities = capabilities
+})
+
+-- Language server for Python
+
+nvim_lsp.jedi_language_server.setup({ 
+    on_attach=on_attach,
+    capabilities = capabilities
+})
 
 EOF
 
 
-" Set up nvim-autoparis
+" Set up nvim-autopais
 
 lua << EOF
 
@@ -473,7 +545,11 @@ EOF
 
 lua <<EOF
 
-require'nvim-treesitter.configs'.setup { }
+require'nvim-treesitter.configs'.setup { 
+    matchup = {
+        enable = true,
+    },
+}
 
 EOF
 
@@ -502,3 +578,5 @@ iron.core.set_config {
 }
 
 EOF
+
+
