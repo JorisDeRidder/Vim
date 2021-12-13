@@ -42,6 +42,7 @@ Plug 'lervag/vimtex'                               " LaTeX: \ll to start compili
 Plug 'schickling/vim-bufonly'                      " Delete all buffers except current one with :BufOnly or :Bonly
 Plug 'tpope/vim-repeat'                            " Allow repeating all commands in a map, not just the last command of that map.
 Plug 'tpope/vim-fugitive'                          " Allows to interact with Git.
+Plug 'windwp/nvim-autopairs'                       " Auto-insert closing ) ] } etc after opening ( [ { etc.
 Plug 'airblade/vim-rooter'                         " Change working directory to project root
 Plug 'brooth/far.vim'                              " Find and replace in multiple files. E.g. :F foo **/*.py or :Far foo bar **/*.py
 Plug 'MattesGroeger/vim-bookmarks'                 " Toggling bookmarks per line. :BookmarkToggle :BookmarkAnnotate <TEXT>
@@ -50,6 +51,9 @@ Plug 'junegunn/fzf.vim'                            " Vim interface to fzf (curre
 Plug 'machakann/vim-highlightedyank'               " Highlight the yanked text
 Plug 'phaazon/hop.nvim'                            " Easy navigation in the visible buffer. Use 's <char1> <char2>' to  
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Advanced syntax tree parser
+Plug 'hkupty/iron.nvim'                            " Interaction with a REPL. :IronRepl / cst / cq to start/interrupt/stop REPL
+Plug 'famiu/bufdelete.nvim'                        " Buffer delete without messing up window structure (:Bdelete)
+
 
 call plug#end()
 
@@ -114,6 +118,17 @@ endif
 set undodir=$HOME/.nvim/undodir                    " Centralize all undo information in one directory
 
 let mapleader = '\'                                " Use backslash to start custom shortcuts
+
+" Down the rabbit hole: no arrow keys, only the home keys
+
+" nnoremap <up> <nop>
+" nnoremap <down> <nop>
+" inoremap <up> <nop>
+" inoremap <down> <nop>
+" inoremap <left> <nop>
+" inoremap <right> <nop>
+
+" Configure the tabline
 
 let g:buftabline_show=1                            " Only show tabline when there are at least 2 buffers
 let g:buftabline_numbers=2                         " Give each buffer an ordinal nr != its buffer number
@@ -220,7 +235,7 @@ let g:vimtex_quickfix_mode = 2                     " Open quickfix only when the
 let g:vimtex_quickfix_open_on_warning = 0          " Only open the quickfix on errors, not warnings
 let g:vimtex_quickfix_autoclose_after_keystrokes=1 " Close quickfix window after 1 motion (e.g. cursor moved)
 let g:vimtex_quickfix_autojump = 0                 " Don't auto-jump to the first LaTeX error when there are compilation errors
-" let g:vimtex_syntax_conceal_default = 0            " Don't conceal LaTeX commands like \alpha with a UTF character. 
+let g:vimtex_syntax_conceal_disable = 1            " Don't conceal LaTeX commands like \alpha with a UTF character. 
 
 let g:rooter_targets = '*.yaml,*.cpp,*.h,*.py,*.rs'   " This file trigger a change-working-directory (no spaces in string)
 let g:rooter_patterns = ['.git']                      " This is how a project root can be recognized
@@ -418,13 +433,40 @@ end
 
 -- Enable analyzers
 
-nvim_lsp.rust_analyzer.setup({ on_attach=on_attach })
+nvim_lsp.rust_analyzer.setup({
+    on_attach=on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
+
 nvim_lsp.clangd.setup({ on_attach=on_attach })
 nvim_lsp.jedi_language_server.setup({ on_attach=on_attach })
 
 EOF
 
 
+" Set up nvim-autoparis
+
+lua << EOF
+
+require('nvim-autopairs').setup({
+    -- Don't add a closing pair if it already has a close pair in the same line
+    enable_check_bracket_line = false
+})
+
+EOF
 
 
 " Set up Treesitter
@@ -435,3 +477,28 @@ require'nvim-treesitter.configs'.setup { }
 
 EOF
 
+
+
+" Set up iron.nvim to let nvim communicate with a REPL
+"
+" Examples: \]3j     sends 3 lines of code to the REPL
+"           \<enter> sends the current line or the current selection to the REPL
+"
+" Iron introduces the mapping \sl (send line) that interferes with my \s (fzf search) mapping, so unmap it.
+
+nmap <leader>]    <Plug>(iron-send-motion)
+vmap <leader><CR> <Plug>(iron-visual-send)
+nmap <leader><CR> <Plug>(iron-send-line) j
+autocmd VimEnter * unmap \sl
+
+lua << EOF
+
+local iron = require('iron')
+
+iron.core.set_config {
+  preferred = {
+    python = "ipython",
+  }
+}
+
+EOF
