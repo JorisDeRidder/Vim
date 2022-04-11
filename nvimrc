@@ -17,9 +17,8 @@ Plug 'kyazdani42/nvim-web-devicons'                " Add devicons
 Plug 'nvim-lua/popup.nvim'                         " Allows for popups to appear
 Plug 'nvim-lua/plenary.nvim'                       " Collections of lua functions.
 Plug 'unblevable/quick-scope'                      " Mark jump points for f or F
-Plug 'ap/vim-buftabline'                           " To configure a buffer tab line
+Plug 'romgrk/barbar.nvim'                          " To configure a buffer tab line
 Plug 'mhinz/vim-signify'                           " Show file changes. Works with git, mercurial,...
-Plug 'pechorin/any-jump.vim'                       " List def and refs of word under cursor, project wide. Requires ripgrep.
 Plug 'tpope/vim-surround'                          " To wrap text in brackets, parenthesis, xml-tags, ...
 Plug 'michaeljsmith/vim-indent-object'             " Text object for indented blocks
 Plug 'vim-scripts/argtextobj.vim'                  " Text object for function arguments
@@ -34,15 +33,13 @@ Plug 'b3nj5m1n/kommentary'                         " Easy (un)commenting of code
 Plug 'matze/vim-move'                              " Moving selected blocks of text
 Plug 'andymass/vim-matchup'                        " Highlight, navigate and operate on sets of matching text. E.g. if-then-else
 Plug 'godlygeek/tabular'                           " Tabularizing text, e.g. on '=' char with :Tab/=
-Plug 'itchyny/vim-cursorword'                      " Underline the 'word' under the cursor
+Plug 'RRethy/vim-illuminate'                       " Automatically highlight other uses of the word under the cursor
 Plug 'ludovicchabant/vim-gutentags'                " Manages ctags files
 Plug 'mechatroner/rainbow_csv'                     " Visualizing and querying CSV files
-Plug 'JuliaEditorSupport/julia-vim'                " Julia support, e,g. LaTeX-to-unicode conversion
 Plug 'rust-lang/rust.vim'                          " Syntax highlighting for the Rust language
 Plug 'goerz/jupytext.vim'                          " Edit jupyter notebooks (requires jupytext CLI)
 Plug 'chrisbra/Colorizer'                          " Colorize W3 colors, X11 color names, and hex color codes. :ColorToggle
 Plug 'vimwiki/vimwiki'                             " To create a personal wiki (\ww to load the Index)
-Plug 'mattn/calendar-vim'                          " Calendar view. :CalendarH
 Plug 'lervag/vimtex'                               " LaTeX: \ll to start compiling. \lc to clear auxilliary files.
 Plug 'schickling/vim-bufonly'                      " Delete all buffers except current one with :BufOnly or :Bonly
 Plug 'tpope/vim-repeat'                            " Allow repeating all commands in a map, not just the last command of that map.
@@ -51,13 +48,17 @@ Plug 'windwp/nvim-autopairs'                       " Auto-insert closing ) ] } e
 Plug 'airblade/vim-rooter'                         " Change working directory to project root
 Plug 'brooth/far.vim'                              " Find and replace in multiple files. E.g. :F foo **/*.py or :Far foo bar **/*.py
 Plug 'MattesGroeger/vim-bookmarks'                 " Toggling bookmarks per line. :BookmarkToggle :BookmarkAnnotate <TEXT>
+Plug 'nvim-telescope/telescope.nvim'               " Fuzzy finder, some plugins require it.
 Plug 'junegunn/fzf'                                " Fuzzy finder - the machinery 
 Plug 'junegunn/fzf.vim'                            " Vim interface to fzf (currently faster than Telescope)
 Plug 'machakann/vim-highlightedyank'               " Highlight the yanked text
 Plug 'phaazon/hop.nvim'                            " Easy navigation in the visible buffer. Use 's <char1> <char2>' to  
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Advanced syntax tree parser
-Plug 'hkupty/iron.nvim'                            " Interaction with a REPL. :IronRepl / cst / cq to start/interrupt/stop REPL
 Plug 'famiu/bufdelete.nvim'                        " Buffer delete without messing up window structure (:Bdelete)
+Plug 'sudormrfbin/cheatsheet.nvim'                 " Display a cheatsheet helping to remember the keybindings: \?
+Plug 'gelguy/wilder.nvim'                          " Auto-suggestions at cmdline (:) or when searching with / or ?
+Plug 'folke/trouble.nvim'                          " Pretty list of diagnostics, references, quickfixes
+Plug 'folke/todo-comments.nvim'                    " Highlight TODO, FIXME, WARNING, ... Requires :TSInstall comment
 
 
 call plug#end()
@@ -82,8 +83,7 @@ set cindent                                        " C-style auto-indentation
 set cinkeys-=0#                                    " Avoid bad indent of # comment lines in Python
 set indentkeys-=0#                                 " Avoid bad indent of # comment lines in Python
 set shiftwidth=4                                   " Indentation should always be done using 4 spaces
-set textwidth=130                                  " Hard-break lines after 130 characters
-set colorcolumn=130                                " Highlight column 130
+set colorcolumn=150                                " Highlight column 150
 set cursorline                                     " Highlight the line where the cursor is
 set cursorcolumn                                   " Highlight the column where the cursor is
 set showmatch                                      " Show matching pairs of brackets
@@ -124,21 +124,22 @@ set undodir=$HOME/.nvim/undodir                    " Centralize all undo informa
 
 let mapleader = '\'                                " Use backslash to start custom shortcuts
 
-
 " Configure the tabline
 
-let g:buftabline_show=1                            " Only show tabline when there are at least 2 buffers
-let g:buftabline_numbers=2                         " Give each buffer an ordinal nr != its buffer number
-let g:buftabline_separators='|'                    " Separator between buffer names in tabline
-nmap <leader>1 <Plug>BufTabLine.Go(1)              " Use \1 to switch to buffer 1
-nmap <leader>2 <Plug>BufTabLine.Go(2)              " Use \2 to switch to buffer 2
-nmap <leader>3 <Plug>BufTabLine.Go(3)              " Use \3 to switch to buffer 3
-nmap <leader>4 <Plug>BufTabLine.Go(4)              " Use \4 to switch to buffer 4
-nmap <leader>5 <Plug>BufTabLine.Go(5)              " Use \5 to switch to buffer 5
-nmap <leader>6 <Plug>BufTabLine.Go(6)              " Use \6 to switch to buffer 6
-nmap <leader>7 <Plug>BufTabLine.Go(7)              " Use \7 to switch to buffer 7
-nmap <leader>8 <Plug>BufTabLine.Go(8)              " Use \8 to switch to buffer 8
-nmap <leader>9 <Plug>BufTabLine.Go(9)              " Use \9 to switch to buffer 9
+let bufferline = get(g:, 'bufferline', {})
+let bufferline.icons = 'numbers'
+
+nnoremap <silent> <S-Tab> :BufferPrevious<CR>      " Move to previous buffer in the tab bar
+nnoremap <silent> <Tab> :BufferNext<CR>            " Move to next buffer in the tab bar
+nmap <leader>1 :BufferGoto 1<CR>                   " Use \1 to switch to buffer 1
+nmap <leader>2 :BufferGoto 2<CR>                   " Use \2 to switch to buffer 2
+nmap <leader>3 :BufferGoto 3<CR>                   " Use \3 to switch to buffer 3
+nmap <leader>4 :BufferGoto 4<CR>                   " Use \4 to switch to buffer 4
+nmap <leader>5 :BufferGoto 5<CR>                   " Use \5 to switch to buffer 5
+nmap <leader>6 :BufferGoto 6<CR>                   " Use \6 to switch to buffer 6
+nmap <leader>7 :BufferGoto 7<CR>                   " Use \7 to switch to buffer 7
+nmap <leader>8 :BufferGoto 8<CR>                   " Use \8 to switch to buffer 8
+nmap <leader>9 :BufferGoto 9<CR>                   " Use \9 to switch to buffer 9
 
 nnoremap <silent> <leader>lg :LazyGit<CR>          " Coolest git client available
 
@@ -150,14 +151,17 @@ vnoremap . :normal .<CR>
 " \f : Find a _f_ile in current and sub-directories
 " \g : _G_rep all files in current and sub-directories, using ripgrep. 
 " \r : Search in _r_ecent files
-" \t : Search in _t_ags in current project (using ctags)
+" \e : Toggle list error and warning diagnostics in this workspace
+" \j:  Toggle list of references to the word under the cursor
 " \c : Search in recent vim _c_ommands. 
 
 nnoremap <leader>s <cmd>BLines<cr>
 nnoremap <leader>f <cmd>Files<cr>
 nnoremap <leader>g <cmd>Rg<cr>
 nnoremap <leader>r <cmd>History<cr>
-nnoremap <leader>t <cmd>Tags<cr>
+nnoremap <leader>e <cmd>TroubleToggle workspace_diagnostics<cr>
+nnoremap <leader>j <cmd>TroubleToggle lsp_references<cr>
+nnoremap <leader>t <cmd>TodoTrouble<cr>
 nnoremap <leader>c <cmd>History:<cr>
 
 " Easy cycling between windows using the Alt and the arrow keys in normal mode
@@ -173,16 +177,11 @@ nmap <silent> <A-Right> :wincmd l<CR>              " Move to window right: Alt-a
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.65, 'border': 'rounded' } }
 let g:fzf_colors = { 'border': ['fg', 'Normal'] }
 
-" Use \j both in normal and visual (selection) mode to give an overview of the definitions and usages [AnyJump]
-
-nnoremap <leader>j :AnyJump<CR>
-xnoremap <leader>j :AnyJumpVisual<CR>
-
 
 let g:tagbar_width = 40                            " Width of the tagbar
 let g:tagbar_compact = 1                           " No short help at top of the tagbar
 
-let g:gutentags_enabled = 1                                " Set to 0 if no ctags updates are desired
+let g:gutentags_enabled = 1                        " Set to 0 if no ctags updates are desired
 let g:gutentags_ctags_extra_args = ['-R', '--extra=+f', '--exclude=build', '--exclude=docs', '--exclude=dependencies']    " -R: recursive, +f: include files
 " let g:gutentags_trace = 1                          " To debug in case of trouble
 
@@ -197,17 +196,6 @@ let g:calendar_number_of_months=5                  " Show 5 weeks at the same ti
 
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
 let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
-
-let g:any_jump_list_numbers = 0
-let g:any_jump_references_enabled = 1              " Auto-search references as well
-let g:any_jump_grouping_enabled = 0                " Don't group by filename, just definitions vs references
-let g:any_jump_preview_lines_count = 5             " Number of preview lines per search result
-let g:any_jump_max_search_results = 10             " Max nr of search results to show. Obtain rest via [a]
-let g:any_jump_search_prefered_engine = 'rg'       " Use ripgrep as search engine
-let g:any_jump_results_ui_style = 'filename_first' " First show filename, then the line with the match
-let g:any_jump_window_width_ratio  = 0.6           " Size and position parameters of the AnyJump window
-let g:any_jump_window_height_ratio = 0.6
-let g:any_jump_window_top_offset   = 4
 
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'index': 'Index', 'syntax': 'markdown', 'ext': 'md'}]
 let g:vimwiki_folding = 'list'
@@ -228,7 +216,7 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse   " Make the highlight
 
 " Map Hop's navigation commands
 
-nnoremap s :HopChar2<CR>
+nnoremap s :HopChar1<CR>
 nnoremap S :HopPattern<CR>
 
 " Map <space> as a shortcut to remove search highlights
@@ -265,8 +253,7 @@ function! ExecuteMacroOverVisualRange()
 endfunction
 
 
-" Make sure that the buffer list is not swamped with fugitive buffers after
-" opening git objects.
+" Make sure that the buffer list is not swamped with fugitive buffers after opening git objects.
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 
@@ -291,6 +278,27 @@ set wildignore+=*.pyc                            " Python byte code
 
 set whichwrap+=<,>,h,l,[,]
 
+
+" Configuration for wilder: auto-suggestions on the command line
+" Only enable it when tab is pressed.
+
+call wilder#setup({'modes': [':', '/', '?']})
+
+call wilder#setup({
+      \ 'modes': [':', '/', '?'],
+      \ 'next_key': '<Tab>',
+      \ 'previous_key': '<S-Tab>',
+      \ 'accept_key': '<Enter>',
+      \ 'reject_key': '<Right>',
+      \ })
+
+call wilder#set_option('renderer', wilder#popupmenu_renderer({
+      \ 'highlighter': wilder#basic_highlighter(),
+      \ }))
+
+call wilder#setup({'modes': [':', '/', '?'], 'enable_cmdline_enter': 0, })
+
+
 " The standard way of inserting greek/math letters in insert mode is rather
 " tedious. Define the following mappings to facilitate this. 
 " E.g. \gd in insert mode stands for _g_reek letter _d_elta
@@ -304,8 +312,8 @@ fun! DefineGreekLetters()
     inoremap <leader>gD Δ
     inoremap <leader>gH Θ
     inoremap <leader>gL Λ
-    inoremap <leader>gC Ξ  
-    inoremap <leader>gP Π 
+    inoremap <leader>gC Ξ
+    inoremap <leader>gP Π
     inoremap <leader>gS Σ
     inoremap <leader>gU Υ
     inoremap <leader>gF Φ
@@ -324,9 +332,9 @@ fun! DefineGreekLetters()
     inoremap <leader>gl λ
     inoremap <leader>gm μ
     inoremap <leader>gn ν
-    inoremap <leader>gc ξ  
-    inoremap <leader>go ο 
-    inoremap <leader>gp π 
+    inoremap <leader>gc ξ
+    inoremap <leader>go ο
+    inoremap <leader>gp π
     inoremap <leader>gr ρ
     inoremap <leader>gs σ
     inoremap <leader>gt τ
@@ -335,7 +343,7 @@ fun! DefineGreekLetters()
     inoremap <leader>gx χ
     inoremap <leader>gq ψ
     inoremap <leader>gw ω
-    inoremap <leader>partial ∂ 
+    inoremap <leader>partial ∂
     inoremap <leader>nabla ∇
 endfun
 
@@ -408,7 +416,7 @@ cmp.setup({
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
     }),
-    ['<C-Space>'] = cmp.mapping.complete(),
+
     ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
             cmp.select_next_item()
@@ -437,14 +445,6 @@ cmp.setup({
   })
 })
 
--- Enable completing paths in :
-
-cmp.setup.cmdline(':', {
-  sources = cmp.config.sources({
-    { name = 'path' }
-  })
-})
-
 -- Get signatures (and only signatures) when in an argument list
 
 local signature_config = {
@@ -466,7 +466,7 @@ local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
     
-    --Enable completion triggered by the vim  default completion <c-x><c-o>
+    --Enable completion triggered by the vim default completion <c-x><c-o>
 
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -479,12 +479,13 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gi',       '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', 'gr',       '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', 'K',        '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', '<C-k>',    '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
 
+    -- Activate the illuminate plugin to highligh uses of the word under the cursor
+
+    require'illuminate'.on_attach(client)
 
 end
-
 
 -- Setup the analyzers
 
@@ -529,6 +530,17 @@ nvim_lsp.jedi_language_server.setup({
 EOF
 
 
+" Illuminate plugin config
+" Rather than the standard highlighting, *underline* occurrences of the word under the cursor
+
+augroup illuminate_augroup
+    autocmd!
+    autocmd VimEnter * hi illuminatedWord cterm=underline gui=underline
+augroup END
+
+let g:Illuminate_delay = 1000
+
+
 " Set up nvim-autopais
 
 lua << EOF
@@ -541,11 +553,15 @@ require('nvim-autopairs').setup({
 EOF
 
 
+
 " Set up Treesitter
 
-lua <<EOF
+lua << EOF
 
 require'nvim-treesitter.configs'.setup { 
+    highlight = {
+        enable = true,
+    },
     matchup = {
         enable = true,
     },
@@ -555,27 +571,55 @@ EOF
 
 
 
-" Set up iron.nvim to let nvim communicate with a REPL
-"
-" Examples: \]3j     sends 3 lines of code to the REPL
-"           \<enter> sends the current line or the current selection to the REPL
-"
-" Iron introduces the mapping \sl (send line) that interferes with my \s (fzf search) mapping, so unmap it.
 
-nmap <leader>]    <Plug>(iron-send-motion)
-vmap <leader><CR> <Plug>(iron-visual-send)
-nmap <leader><CR> <Plug>(iron-send-line) j
-autocmd VimEnter * unmap \sl
+" Configuration of the cheatsheet plugins
+" I'm only interested in my own cheatsheets, not the ones that came along with the plugin
 
 lua << EOF
 
-local iron = require('iron')
+require("cheatsheet").setup({
+    bundled_cheatsheets = false,
+    bundled_plugin_cheatsheets = false,
+})
 
-iron.core.set_config {
-  preferred = {
-    python = "ipython",
-  }
-}
+EOF
+
+
+" Configuration of Telescope
+
+lua << EOF
+
+require('telescope').setup({
+  defaults = {
+    layout_strategy = 'vertical',
+    layout_config = {height = 0.6},
+  },
+})
+
+EOF
+
+
+
+" Configuration of Trouble
+
+lua << EOF
+
+require("trouble").setup({
+    position = "bottom",
+    height = 13
+})
+
+EOF
+
+
+
+" Configuration for todo-comments
+
+lua << EOF
+
+require("todo-comments").setup({
+
+})
 
 EOF
 
