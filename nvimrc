@@ -22,7 +22,7 @@ Plug 'mhinz/vim-signify'                           " Show file changes. Works wi
 Plug 'tpope/vim-surround'                          " To wrap text in brackets, parenthesis, xml-tags, ...
 Plug 'michaeljsmith/vim-indent-object'             " Text object for indented blocks
 Plug 'vim-scripts/argtextobj.vim'                  " Text object for function arguments
-Plug 'majutsushi/tagbar'                           " Shows a list of tags in a tagbar
+Plug 'majutsushi/tagbar'                           " Shows a list of tags in a tagbar. Toggle with :Tagbar
 Plug 'tommcdo/vim-exchange'                        " Easy text swapping operator: cx{motion} and .
 Plug 'sickill/vim-pasta'                           " Adjust indentation of pasted text to that of the surrounding code
 Plug 'markonm/traces.vim'                          " Range, pattern and substitute preview
@@ -59,7 +59,6 @@ Plug 'sudormrfbin/cheatsheet.nvim'                 " Display a cheatsheet helpin
 Plug 'gelguy/wilder.nvim'                          " Auto-suggestions at cmdline (:) or when searching with / or ?
 Plug 'folke/trouble.nvim'                          " Pretty list of diagnostics, references, quickfixes
 Plug 'folke/todo-comments.nvim'                    " Highlight TODO, FIXME, WARNING, ... Requires :TSInstall comment
-
 
 call plug#end()
 
@@ -172,6 +171,12 @@ nmap <silent> <A-Down> :wincmd j<CR>               " Move to window down: Alt-ar
 nmap <silent> <A-Left> :wincmd h<CR>               " Move to window left: Alt-arrow-left
 nmap <silent> <A-Right> :wincmd l<CR>              " Move to window right: Alt-arrow-right
 
+
+" Use <Space> to insert a blank line below
+
+nnoremap <Space> :<C-u>call append(line("."), repeat([""], v:count1))<CR>
+
+
 " Change the default values of the fzf.vim preview window
 
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.65, 'border': 'rounded' } }
@@ -190,9 +195,6 @@ let g:move_key_modifier = 'C'                      " <Ctrl-k> <Ctrl-j> <Ctrl-h> 
 let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin
 let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible
 let g:indentLine_char = '┊'                        " Type of vertical line
-
-let g:calendar_monday=1                            " Let weeks start on a Monday rather than a Sunday
-let g:calendar_number_of_months=5                  " Show 5 weeks at the same time
 
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
 let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
@@ -219,13 +221,6 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse   " Make the highlight
 nnoremap s :HopChar1<CR>
 nnoremap S :HopPattern<CR>
 
-" Map <space> as a shortcut to remove search highlights
-
-map <Space> :noh<cr>
-
-" Abbreviate :Tagbar to :tb
-
-cabbrev tb Tagbar
 
 " Auto-resize splits when Vim gets resized.
 
