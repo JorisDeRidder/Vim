@@ -6,8 +6,8 @@ Plug 'neovim/nvim-lspconfig'                       " Tools for Neovim's Language
 Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}    " Completion using the LSP client. Used by nvim-cmp.
 Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}      " Completion with words from the buffer. Used by nvim-cmp
 Plug 'hrsh7th/cmp-path', {'branch': 'main'}        " Completion with filesystem paths. Used by nvim-cmp
-Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}        " Auto-completion
 Plug 'hrsh7th/cmp-vsnip', {'branch': 'main'}       " Auto-completion with snippets. Used by nvim-cmp
+Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}        " Auto-completion
 Plug 'hrsh7th/vim-vsnip'                           " Snippets, using the LSP. Used by cmp-vsnip.
 Plug 'ray-x/lsp_signature.nvim'                    " Show the signature of the function you're writing
 Plug 'sainnhe/sonokai'                             " The 'sonakai' color scheme
@@ -59,6 +59,7 @@ Plug 'sudormrfbin/cheatsheet.nvim'                 " Display a cheatsheet helpin
 Plug 'gelguy/wilder.nvim'                          " Auto-suggestions at cmdline (:) or when searching with / or ?
 Plug 'folke/trouble.nvim'                          " Pretty list of diagnostics, references, quickfixes
 Plug 'folke/todo-comments.nvim'                    " Highlight TODO, FIXME, WARNING, ... Requires :TSInstall comment
+Plug 'kyazdani42/nvim-tree.lua'                    " Show a file tree. Written in lua. Toggle with \q.
 
 call plug#end()
 
@@ -151,8 +152,10 @@ vnoremap . :normal .<CR>
 " \g : _G_rep all files in current and sub-directories, using ripgrep. 
 " \r : Search in _r_ecent files
 " \e : Toggle list error and warning diagnostics in this workspace
-" \j:  Toggle list of references to the word under the cursor
+" \j : Toggle list of references to the word under the cursor
+" \t : Search _t_ags in current file
 " \c : Search in recent vim _c_ommands. 
+" \q : Toggle file tree
 
 nnoremap <leader>s <cmd>BLines<cr>
 nnoremap <leader>f <cmd>Files<cr>
@@ -160,8 +163,10 @@ nnoremap <leader>g <cmd>Rg<cr>
 nnoremap <leader>r <cmd>History<cr>
 nnoremap <leader>e <cmd>TroubleToggle workspace_diagnostics<cr>
 nnoremap <leader>j <cmd>TroubleToggle lsp_references<cr>
-nnoremap <leader>t <cmd>TodoTrouble<cr>
+nnoremap <leader>t <cmd>BTags<cr>
 nnoremap <leader>c <cmd>History:<cr>
+nnoremap <leader>q <cmd>NvimTreeToggle<cr>
+
 
 " Easy cycling between windows using the Alt and the arrow keys in normal mode
 " Can't use Ctrl because OSX already claims <ctrl>-Right.
@@ -172,9 +177,9 @@ nmap <silent> <A-Left> :wincmd h<CR>               " Move to window left: Alt-ar
 nmap <silent> <A-Right> :wincmd l<CR>              " Move to window right: Alt-arrow-right
 
 
-" Use <Space> to insert a blank line below
+" Use <Enter> to insert a blank line below
 
-nnoremap <Space> :<C-u>call append(line("."), repeat([""], v:count1))<CR>
+nnoremap <Enter> :<C-u>call append(line("."), repeat([""], v:count1))<CR>
 
 
 " Change the default values of the fzf.vim preview window
@@ -193,7 +198,7 @@ let g:gutentags_ctags_extra_args = ['-R', '--extra=+f', '--exclude=build', '--ex
 let g:move_key_modifier = 'C'                      " <Ctrl-k> <Ctrl-j> <Ctrl-h> and <Ctrl-l> allow to move a selected block of text
 
 let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin
-let g:indentLine_color_gui = '#393A3D'             " Vertical lines should only be barely visible
+let g:indentLine_color_gui = '#88888a'             " Vertical lines should only be barely visible
 let g:indentLine_char = '┊'                        " Type of vertical line
 
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
@@ -444,9 +449,9 @@ cmp.setup({
 
 local signature_config = {
     bind = true,
-    doc_lines = 0,
-    hint_prefix = "",
-    floating_window_above_cur_line = false,
+    doc_lines = 10,
+    hint_enable = false,
+    floating_window = false,
     hi_parameter = "LspSignatureActiveParameter",          -- Alternative is "IncSearch"
     handler_opts = { border = "rounded" },
     toggle_key = '<C-s>',
@@ -475,6 +480,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', 'gr',       '<cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', 'K',        '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('i', '<C-s>',    '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
     -- Activate the illuminate plugin to highligh uses of the word under the cursor
 
@@ -595,7 +601,7 @@ EOF
 
 
 
-" Configuration of Trouble
+" Configuration of Trouble (errors and warnings summary)
 
 lua << EOF
 
@@ -618,4 +624,14 @@ require("todo-comments").setup({
 
 EOF
 
+
+" Configuration for nvim-tree
+
+lua << EOF
+
+require('nvim-tree').setup({
+
+})
+
+EOF
 
