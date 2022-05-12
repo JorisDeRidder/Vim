@@ -22,12 +22,12 @@ Plug 'mhinz/vim-signify'                           " Show file changes. Works wi
 Plug 'tpope/vim-surround'                          " To wrap text in brackets, parenthesis, xml-tags, ...
 Plug 'michaeljsmith/vim-indent-object'             " Text object for indented blocks
 Plug 'vim-scripts/argtextobj.vim'                  " Text object for function arguments
-Plug 'majutsushi/tagbar'                           " Shows a list of tags in a tagbar. Toggle with :Tagbar
+Plug 'simrat39/symbols-outline.nvim'               " Shows a list of tags in a tagbar. Toggle with :SymbolsOutline
 Plug 'tommcdo/vim-exchange'                        " Easy text swapping operator: cx{motion} and .
 Plug 'sickill/vim-pasta'                           " Adjust indentation of pasted text to that of the surrounding code
 Plug 'markonm/traces.vim'                          " Range, pattern and substitute preview
 Plug 'kdheepak/lazygit.nvim'                       " Allows to call lazygit from inside neovim
-Plug 'Yggdroot/indentLine'                         " Show tiny vertical lines at each indent level
+Plug 'lukas-reineke/indent-blankline.nvim'         " Show tiny vertical lines at each indent level
 Plug 'ntpeters/vim-better-whitespace'              " Highlight and fix trailing whitespace.
 Plug 'b3nj5m1n/kommentary'                         " Easy (un)commenting of code
 Plug 'matze/vim-move'                              " Moving selected blocks of text
@@ -54,12 +54,16 @@ Plug 'junegunn/fzf.vim'                            " Vim interface to fzf (curre
 Plug 'machakann/vim-highlightedyank'               " Highlight the yanked text
 Plug 'phaazon/hop.nvim'                            " Easy navigation in the visible buffer. Use 's <char1> <char2>' to  
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " Advanced syntax tree parser
+Plug 'SmiteshP/nvim-gps'                           " Show context (classes, functions, ...) in the statusline at the bottom
+Plug 'mfussenegger/nvim-treehopper'                " Similar to hop in visual mode to make quick selections
 Plug 'famiu/bufdelete.nvim'                        " Buffer delete without messing up window structure (:Bdelete)
 Plug 'sudormrfbin/cheatsheet.nvim'                 " Display a cheatsheet helping to remember the keybindings: \?
 Plug 'gelguy/wilder.nvim'                          " Auto-suggestions at cmdline (:) or when searching with / or ?
 Plug 'folke/trouble.nvim'                          " Pretty list of diagnostics, references, quickfixes
-Plug 'folke/todo-comments.nvim'                    " Highlight TODO, FIXME, WARNING, ... Requires :TSInstall comment
 Plug 'kyazdani42/nvim-tree.lua'                    " Show a file tree. Written in lua. Toggle with \q.
+Plug 'folke/todo-comments.nvim'                    " Highlight TODO, FIXME, WARNING, ... Requires :TSInstall comment
+Plug 'akinsho/toggleterm.nvim'                     " Easily toggle a terminal
+Plug 'FooSoft/vim-argwrap'                         " Toggle between single and multiline f() args, array elements etc. Use \a.
 
 call plug#end()
 
@@ -124,7 +128,7 @@ set undodir=$HOME/.nvim/undodir                    " Centralize all undo informa
 
 let mapleader = '\'                                " Use backslash to start custom shortcuts
 
-" Configure the tabline
+" Configure the tabline at the top
 
 let bufferline = get(g:, 'bufferline', {})
 let bufferline.icons = 'numbers'
@@ -147,34 +151,49 @@ nnoremap <silent> <leader>lg :LazyGit<CR>          " Coolest git client availabl
 
 vnoremap . :normal .<CR>
 
-" \s : _S_earch the current buffer
+" Leader commands. Cf fzf.vim for many of the commands.
+" \\ : Toggle a terminal   
+" \a : Toggle between single line or multiline function arguments, array elements, etc.
+" \b : Toggle Tag _B_ar
+" \c : Search in recent vim _c_ommands. 
+" \e : Toggle list error and warning diagnostics in this workspace
 " \f : Find a _f_ile in current and sub-directories
 " \g : _G_rep all files in current and sub-directories, using ripgrep. 
-" \r : Search in _r_ecent files
-" \e : Toggle list error and warning diagnostics in this workspace
 " \j : Toggle list of references to the word under the cursor
-" \t : Search _t_ags in current file
-" \c : Search in recent vim _c_ommands. 
 " \q : Toggle file tree
+" \r : Search in _r_ecent files
+" \s : _S_earch the current buffer
+" \t : Search _t_ags in current file
+" \T:  Search _T_ags in the entire project
 
-nnoremap <leader>s <cmd>BLines<cr>
+nnoremap <leader>a :ArgWrap<CR>
+nnoremap <leader>b <cmd>SymbolsOutline<cr>
+nnoremap <leader>c <cmd>History:<cr>
+nnoremap <leader>e <cmd>TroubleToggle workspace_diagnostics<cr>
 nnoremap <leader>f <cmd>Files<cr>
 nnoremap <leader>g <cmd>Rg<cr>
-nnoremap <leader>r <cmd>History<cr>
-nnoremap <leader>e <cmd>TroubleToggle workspace_diagnostics<cr>
 nnoremap <leader>j <cmd>TroubleToggle lsp_references<cr>
-nnoremap <leader>t <cmd>BTags<cr>
-nnoremap <leader>c <cmd>History:<cr>
 nnoremap <leader>q <cmd>NvimTreeToggle<cr>
+nnoremap <leader>r <cmd>History<cr>
+nnoremap <leader>s <cmd>BLines<cr>
+nnoremap <leader>t <cmd>BTags<cr>
+nnoremap <leader>T <cmd>Tags<cr>
+
+" vnoremap <leader>z :normal <cmd>ToggleTermSendVisualLines<cr>
 
 
 " Easy cycling between windows using the Alt and the arrow keys in normal mode
 " Can't use Ctrl because OSX already claims <ctrl>-Right.
+" Move to window up:    Alt-arrow-up 
+" Move to window down:  Alt-arrow-down
+" Move to window left:  Alt-arrow-left
+" Move to window right: Alt-arrow-right
+" Don't add any comments after <CR> or this will give problems with switching to and from the (toggled) terminal.
 
-nmap <silent> <A-Up> :wincmd k<CR>                 " Move to window up: Alt-arrow-up 
-nmap <silent> <A-Down> :wincmd j<CR>               " Move to window down: Alt-arrow-down
-nmap <silent> <A-Left> :wincmd h<CR>               " Move to window left: Alt-arrow-left
-nmap <silent> <A-Right> :wincmd l<CR>              " Move to window right: Alt-arrow-right
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
 
 
 " Use <Enter> to insert a blank line below
@@ -187,22 +206,13 @@ nnoremap <Enter> :<C-u>call append(line("."), repeat([""], v:count1))<CR>
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.65, 'border': 'rounded' } }
 let g:fzf_colors = { 'border': ['fg', 'Normal'] }
 
-
-let g:tagbar_width = 40                            " Width of the tagbar
-let g:tagbar_compact = 1                           " No short help at top of the tagbar
-
-let g:gutentags_enabled = 1                        " Set to 0 if no ctags updates are desired
-let g:gutentags_ctags_extra_args = ['-R', '--extra=+f', '--exclude=build', '--exclude=docs', '--exclude=dependencies']    " -R: recursive, +f: include files
-" let g:gutentags_trace = 1                          " To debug in case of trouble
-
 let g:move_key_modifier = 'C'                      " <Ctrl-k> <Ctrl-j> <Ctrl-h> and <Ctrl-l> allow to move a selected block of text
-
-let g:indentLine_enabled = 1                       " Set to 0 if you want to disable this plugin
-let g:indentLine_color_gui = '#88888a'             " Vertical lines should only be barely visible
-let g:indentLine_char = '┊'                        " Type of vertical line
 
 let g:better_whitespace_enabled=0                  " No highlighting of trailing whitespace by default
 let g:strip_whitespace_on_save=0                   " No removing of trailing whitespace by default
+
+let g:qs_max_chars=150                             " No quick-scope f/F jump markers for lines with more than 150 chars
+let g:qs_delay = 750                               " Only show f/F jump markers after xxx milliseconds. Improves performance.
 
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'index': 'Index', 'syntax': 'markdown', 'ext': 'md'}]
 let g:vimwiki_folding = 'list'
@@ -220,11 +230,21 @@ let g:rooter_patterns = ['.git']                      " This is how a project ro
 let g:highlightedyank_highlight_duration = 1000    " How long a yanked text should stay highlighted
 highlight HighlightedyankRegion cterm=reverse gui=reverse   " Make the highlight better visible
 
+let g:gutentags_enabled = 1                        " Set to 0 if no ctags updates are desired
+let g:gutentags_ctags_extra_args = ['-R', '--extra=+f', '--exclude=build', '--exclude=docs', '--exclude=dependencies']    " -R: recursive, +f: include files
+" let g:gutentags_trace = 1                          " To debug in case of trouble
+
 
 " Map Hop's navigation commands
 
 nnoremap s :HopChar1<CR>
 nnoremap S :HopPattern<CR>
+
+
+" Map Treehopper's navigation commands
+
+omap     <silent> s :<C-U>lua require('tsht').nodes()<CR>
+vnoremap <silent> s :lua require('tsht').nodes()<CR>
 
 
 " Auto-resize splits when Vim gets resized.
@@ -243,7 +263,7 @@ command! Wq wq
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-" The following allows to make a selection, and hit @ to run a macro on all lines
+" The following allows to make a selection, and hit @ to run a macro on all selected lines
 
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
@@ -359,23 +379,40 @@ require'hop'.setup()
 EOF
 
 
+
+" Configuration for nvim-gps to show context in the statusline at the bottom
+" Note: also the lualine configuration changes!
+
+lua << EOF
+
+require('nvim-gps').setup({
+
+})
+
+EOF
+
+
+
 " Start lualine (status line)
 
 lua << EOF
-require'lualine'.setup {
+
+local gps = require("nvim-gps")
+
+require("lualine").setup({
     options = {
-        icons_enabled=false,
+        icons_enabled=true,
         theme='oceanicnext'
     },
     sections = {
         lualine_a = {'mode'},
         lualine_b = {'branch'},
-        lualine_c = {'filename'},
+        lualine_c = {{gps.get_location, cond = gps.is_available },},
         lualine_x = {'encoding', 'fileformat', 'filetype'},
         lualine_y = {'progress'},
         lualine_z = {'location'}
-    }
-}
+    },
+})
 
 EOF
 
@@ -632,6 +669,95 @@ lua << EOF
 require('nvim-tree').setup({
 
 })
+
+EOF
+
+
+" Configuration for toggleterm
+" To navigate out of the Terminal I configure <Alt-ArrowUp>. Moving back into the terminal is already 
+" configured above with <Alt-ArrowDown> to move between different windows.
+
+lua << EOF
+
+-- The regular terminal is horizontal one at the bottom of the screen
+
+require('toggleterm').setup({
+    size = 20,
+    open_mapping = [[\\]],
+    hide_numbers=true,
+    shade_filetypes = {},
+    shade_terminals = true,
+    shading_factor = 2,
+    start_in_insert = true,
+    insert_mappings = true,
+    persist_size = true,
+    direction = "horizontal",
+    close_on_exit = true,
+    shell = vim.o.shell,
+})
+
+-- Alt-ArrowUp should allow to move the cursor out of the window
+
+function _G.set_terminal_keymaps()
+  local opts = {noremap = true}
+  vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+  vim.api.nvim_buf_set_keymap(0, 't', '<A-Up>', [[<C-\><C-n><C-W>k]], opts)
+end
+
+vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
+
+EOF
+
+
+
+" Configure Treehopper 
+
+lua << EOF
+
+require("tsht").config.hint_keys = {'h', 'j', 'f', 'd', 'n', 'v', 's', 'l', 'a'}
+
+EOF
+
+
+
+" Configure indent_blankline
+
+lua << EOF
+
+require("indent_blankline").setup({
+
+    show_current_context = true,
+    show_current_context_start = true,
+})
+
+EOF
+
+
+" Configure symbols_outline
+
+lua << EOF
+
+vim.g.symbols_outline = {
+    highlight_hovered_item = true,
+    show_guides = true,
+    auto_preview = false,
+    position = 'right',
+    relative_width = true,
+    width = 15,
+    auto_close = false,
+    show_numbers = false,
+    show_relative_numbers = false,
+    show_symbol_details = true,
+    keymaps = { 
+        close = {"<Esc>", "q"},               -- Close the tagbar
+        goto_location = "<Cr>",               -- Show the tag in the code and move the cursor to it 
+        focus_location = "o",                 -- Show the tag but keep the cursor in the tagbar
+        toggle_preview = "K",
+        rename_symbol = "r",
+    },
+    lsp_blacklist = {},
+    symbol_blacklist = {},
+}
 
 EOF
 
