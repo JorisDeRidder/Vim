@@ -1,4 +1,4 @@
-# Vim
+# Neovim
 
-My Vim related stuff. Use at your own risk.
+My Neovim related stuff. Use at your own risk.
 

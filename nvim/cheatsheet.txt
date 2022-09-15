@@ -1,0 +1,101 @@
+
+## Editing
+Indent non-empty item                                  | <C-t>
+Outdent non-empty item                                 | <C-d>
+Clear the line without deleting it                     | 0D
+Join this and the next line with a space in between    | J
+Join this and the next line without a space in between | gJ
+Split line on space under cursor in normal mode        | r<cr>
+Go back to insert mode at last edited location         | gi
+Fix indentation in selection                           | =
+
+## Selecting @visual
+Reselect the last selection                            | gv
+Select the current paragraph                           | vip
+Send selection to terminal                             | <Space>
+Select Python function                                 | af / if
+Select Python class                                    | ac / ic
+
+## Git
+Show git blame info                                    | :Git blame
+Show a diff                                            | :Git diff
+Show commit history of current git project             | :Commits
+Show commit history of current buffer                  | :BCommits
+
+## Commenting
+Toggle comments over {motion}                          | gc{motion}
+Toggle comment for this line                           | gcc
+
+## Swapping
+Select first part of the text to be swapped            | cx{motion}
+Select 2nd part of the text and swap                   | .
+Select current line to be swapped                      | cxx
+Clear swap selection and memory                        | cxc
+
+## Surround
+Surround {motion} by a given {delimiter}               | ys{motion}{delimiter}
+Surround entire line by delimiter                      | yss{delimiter}
+Delete surrounding delimiters                          | ds{delimiter}
+Change surrounding delimiters                          | cs{old-delimiter}{new-delimiter}
+Change surrounding tags to delimiters                  | cst{new-delimiter}
+Surround selection in visual mode                      | S{delimiter}
+
+## Registers
+Clear the {a} register (i.e. empty recording)          | q{a}q
+Yank register {a}                                      | "{a}y
+
+## Global command
+Copy lines starting with {foo} to the end of the file  | :g/^{foo}/t$
+Move lines starting with {foo} to the end of the file  | :g/^{foo}?m$
+Store lines starting with {foo} into register a        | :g/^{foo}/y A
+Add {text} to each line starting with {foo}            | :g/^{foo}/s/$/{text}
+
+## Treesitter @syntaxhighlighting
+List of installed languages                            | :TSInstallInfo
+Install support for a {language}                       | :TSInstall {language}
+Update a particular {language}                         | :TSUpdate {language}
+Update all languages                                   | :TSUpdate all
+
+## LSP
+Info on the installed clients                          | :LspInfo
+Goto declaration / definition                          | gd
+Show info for object under cursor                      | K
+Show error diagnostics                                 | <space-e>
+Format current buffer of Rust code                     | :RustFmt
+
+## Navigation
+Move cursor to instance of 2-letter combo {xy}         | s{xy}
+Move cursor to instance of {word}                      | S{word}
+Move current line to middle of screen                  | zz
+Move current line to top of screen                     | zt
+Move current line to bottom of screen                  | zb
+Move screen one line up without moving cursor          | <C-y>
+Move screen one line down without moving cursor        | <C-e>
+Go to previous/next start of a method/function         | [m / ]m
+Go to opening/closing brace of this function           | [{ / ]}
+
+## Buffers and Windows
+Move buffer to the right in tab line                   | :BufferMoveNext
+Move buffer to the left in tab line                    | :BufferMovePrevious
+Close all buffers except the current one               | :Bonly
+Delete buffer without messing up the window structure  | :Bdelete
+Show invisible characters                              | :set list
+Stop showing invisible characters                      | :set nolist
+Open quickfix window                                   | :copen
+Close quickfix window                                  | :cclose
+
+## Leader commands
+Toggle terminal                                        | \\
+Search files                                           | \f
+Search recently opened files                           | \r
+Search text in current buffer                          | \s
+Search (grep) text in entire project                   | \g
+Search previously used command in normal mode          | \c
+Toggle error/warning diagnostics list                  | \e
+Toggle references list of word under cursor            | \j
+Search tags in current buffer                          | \t
+Search tags in entire project                          | \T
+Toggle file tree                                       | \q
+Toggle tagbar                                          | \b
+
+
