@@ -54,7 +54,7 @@ map('n', '<leader>j', '<Cmd>TroubleToggle lsp_references<CR>', opts)
 map('n', '<leader>q', '<Cmd>Neotree toggle<CR>', opts)
 map('n', '<leader>r', '<Cmd>History<CR>', opts)
 map('n', '<leader>s', '<Cmd>BLines<CR>', opts)
-map('n', '<leader>t', '<Cmd>BTags<CR>', opts)
+map('n', '<leader>t', '<Cmd>Telescope treesitter<CR>', opts)
 map('n', '<leader>T', '<Cmd>Tags<CR>', opts)
 map('n', '<leader>p', '<Cmd>Telescope projects<CR>', opts)
 

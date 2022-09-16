@@ -50,6 +50,8 @@ nvim_lsp.rust_analyzer.setup({
 })
 
 -- Language server for C++
+-- clangd relies on a 'compile_commands.json' file with the compile commands.
+-- Use cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 to generate one
 
 nvim_lsp.clangd.setup({ 
     on_attach=on_attach,
@@ -58,11 +60,17 @@ nvim_lsp.clangd.setup({
 
 -- Language server for Python
 
--- nvim_lsp.jedi_language_server.setup({ 
---     on_attach=on_attach,
---     capabilities = capabilities
--- })
---
+nvim_lsp.jedi_language_server.setup({ 
+    on_attach=on_attach,
+    capabilities = capabilities
+})
+
+
+-- Language server for cmake
+
+nvim_lsp.cmake.setup({
+
+})
 
 
 -- Beautify the diagnostic signs "E" and "W".

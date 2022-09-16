@@ -52,7 +52,7 @@ use({ "nvim-lua/popup.nvim" })                                      -- Allows fo
 use({ "kyazdani42/nvim-web-devicons", config=setup("devicons") })   -- Add devicons 
 use({ "MunifTanjim/nui.nvim" })                                     -- UI component library used by some plugins   
 use({ "catppuccin/nvim", config=setup("catppuccin") })              -- The Catppuccin color scheme 
-use({ "gelguy/wilder.nvim" })                                       -- Auto-suggestions at cmdline (:) or when searching with / or ?
+use({ "gelguy/wilder.nvim", config=setup("wilder") })               -- Auto-suggestions at cmdline (:) or when searching with / or ?
 use({ "markonm/traces.vim" })                                       -- Range, pattern and substitute preview
 use({ "tpope/vim-surround" })                                       -- To wrap text in brackets, parenthesis, xml-tags, ...
 use({ "michaeljsmith/vim-indent-object" })                          -- Text object for indented blocks

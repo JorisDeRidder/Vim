@@ -1,5 +1,6 @@
 
 tags
+nvim/plugin/packer_compiled.lua
 
 # Compiled source 
 
@@ -26,3 +27,4 @@ tags
 .DS_Store*
 Icon?
 Thumbs.db
+
