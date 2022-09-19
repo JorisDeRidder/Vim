@@ -110,7 +110,7 @@ use({ "SmiteshP/nvim-navic", config=setup("navic"),                 -- Provides 
 
 use({ "nvim-telescope/telescope.nvim", config=setup("telescope") }) -- Fuzzy finder, supported by many plugins
 use({ "junegunn/fzf" })                                             -- Fuzzy finder - the machinery 
-use({ "junegunn/fzf.vim", config=setup("fzf_vim") })                -- Vim interface to fzf (currently faster than Telescope)
+use({ "junegunn/fzf.vim", config=setup("fzf_vim") })                -- Vim interface to fzf 
 use({ "sudormrfbin/cheatsheet.nvim", config=setup("cheatsheet") })  -- Display a cheatsheet helping to remember the keybindings: \?
 use({ "lervag/vimtex", config=setup("vimtex") })                    -- LaTeX: \ll to start compiling. \lc to clear auxilliary files.
 use({ "ludovicchabant/vim-gutentags", config=setup("gutentags") })  -- Manages ctags files

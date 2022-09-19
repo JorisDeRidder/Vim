@@ -97,5 +97,7 @@ Search tags in current buffer                          | \t
 Search tags in entire project                          | \T
 Toggle file tree                                       | \q
 Toggle tagbar                                          | \b
+Search recently visited projects                       | \p
+Search in recent search history                        | \h
 
 
