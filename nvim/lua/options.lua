@@ -47,7 +47,7 @@ vim.opt.splitbelow = true                              -- When using :split, put
 vim.opt.whichwrap = '<,>,h,l,[,]'                      -- Make left/right arrow keys and h/l wrap to previous/next line in any mode
 vim.opt.clipboard = "unnamedplus"                      -- Yank to the system clipboard instead of vim default register
 vim.opt.completeopt = {"menu", "menuone", "noselect"}  -- Better auto-completion experience
-vim.opt.listchars = {eol='↲',tab='▸ ',trail='·',extends='→',precedes='←',space='␣'}  -- List all white space characters. Show with :set list
+vim.opt.listchars = {eol='↲',tab='▸ ',trail='·',extends='→',precedes='←',space='·'}  -- List all white space characters. Show with :set list
 
 vim.opt.background = "dark"
 vim.opt.guifont = {"Fira Code", ":h14"}
@@ -64,4 +64,16 @@ vim.opt.wildignore = {'.hg','.git','.svn',             -- Ignore version control
                       '*.DS_Store',                    -- Ignore OSX specific file
                       '*.pyc'}                         -- Ignore Python byte code
 
+
+vim.g.HardMode_level = 'wannabe'                       -- Config HardMode plugin. Disable arrows but not hjkl.
+
+
+-- Set the options that are only relevant for neovide
+
+if vim.g.neovide then
+    vim.opt.guifont = {"Fira Code", ":h15"}
+    vim.g.neovide_transparancy = 0.0
+    vim.g.transparancy = 0.5
+    vim.g.neovide_hide_mouse_when_typing = true
+end
 

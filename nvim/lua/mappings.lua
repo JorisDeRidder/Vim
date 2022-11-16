@@ -33,7 +33,7 @@ map('n', '<leader>9', '<Cmd>BufferGoto 9<CR>', opts)         -- Use \9 to switch
 --    \c : Search in recent vim _c_ommands. 
 --    \e : Toggle list error and warning diagnostics in this workspace
 --    \f : Find a _f_ile in current and sub-directories
---    \g : List _g_ changes per file + preview
+--    \g : Start up Neo_g_it
 --    \h : show _h_istory of previous search results
 --    \j : Toggle list of references to the word under the cursor
 --    \p : List recently visited projects
@@ -43,6 +43,7 @@ map('n', '<leader>9', '<Cmd>BufferGoto 9<CR>', opts)         -- Use \9 to switch
 --    \S : _S_earch in the entire project
 --    \t : Search _t_ags in current file
 --    \T : Search _T_ags in the entire project
+--    \w : toggle word wrap
 
 
 local opts = { noremap = true }
@@ -51,7 +52,7 @@ map('n', '<leader>b', '<Cmd>SymbolsOutline<cr>', opts)
 map('n', '<leader>c', '<Cmd>lua require("telescope.builtin").command_history()<CR>', opts)
 map('n', '<leader>e', '<Cmd>TroubleToggle workspace_diagnostics<CR>', opts)
 map('n', '<leader>f', '<Cmd>lua require("telescope.builtin").find_files()<CR>', opts)
-map('n', '<leader>g', '<Cmd>lua require("telescope.builtin").git_status()<CR>', opts)
+map('n', '<leader>g', '<Cmd>Neogit<CR>', opts)
 map('n', '<leader>h', '<Cmd>lua require("telescope.builtin").search_history()<CR>', opts)
 map('n', '<leader>j', '<Cmd>TroubleToggle lsp_references<CR>', opts)
 map('n', '<leader>p', '<Cmd>Telescope projects<CR>', opts)
@@ -61,6 +62,7 @@ map('n', '<leader>s', '<Cmd>lua require("telescope.builtin").current_buffer_fuzz
 map('n', '<leader>S', '<Cmd>lua require("telescope.builtin").live_grep()<CR>', opts)
 map('n', '<leader>t', '<Cmd>lua require("telescope.builtin").treesitter()<CR>', opts)
 map('n', '<leader>T', '<Cmd>Tags<CR>', opts)
+map('n', '<leader>w', '<Cmd>set wrap!<CR>', opts)
 
 
 -- Use <Space> in visual mode to send the selection to the terminal (e.g. to the Python session)
@@ -155,4 +157,30 @@ autocmd FileType tex let b:doNotDefineGreekLetters=1
 autocmd VimEnter,BufRead,BufNew * call DefineGreekLetters()
 
 ]])
+
+
+-- Define the mappings for the substitute plugin
+-- For the exchange, use the same mappings as for our previous plugin (tommcdo/vim-exchange) 
+-- See also CheatSheet -> Swapping and CheatSheet -> Substituting
+
+local opts = { noremap = true }
+
+vim.keymap.set("n", "cx", "<cmd>lua require('substitute.exchange').operator()<cr>", opts)
+vim.keymap.set("n", "cxx", "<cmd>lua require('substitute.exchange').line()<cr>", opts)
+vim.keymap.set("x", "X", "<cmd>lua require('substitute.exchange').visual()<cr>", opts)
+vim.keymap.set("n", "cxc", "<cmd>lua require('substitute.exchange').cancel()<cr>", opts)
+
+vim.keymap.set("n", "m", "<cmd>lua require('substitute').operator()<cr>", opts)
+vim.keymap.set("n", "mm", "<cmd>lua require('substitute').line()<cr>", opts)
+vim.keymap.set("n", "M", "<cmd>lua require('substitute').eol()<cr>", opts)
+vim.keymap.set("x", "m", "<cmd>lua require('substitute').visual()<cr>", opts)
+
+
+-- Alt-Enter should move the reminder of the line to the beginning of the next line
+-- Note that Shift-Enter cannot be defined in nvim.
+
+local opts = { noremap = true }
+
+map('i', '<A-Enter>', '<CR><Esc>J k A', opts)
+map('n', '<A-Enter>', 'i<CR><Esc>J k $', opts)
 

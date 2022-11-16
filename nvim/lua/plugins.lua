@@ -57,7 +57,7 @@ use({ "markonm/traces.vim" })                                       -- Range, pa
 use({ "tpope/vim-surround" })                                       -- To wrap text in brackets, parenthesis, xml-tags, ...
 use({ "michaeljsmith/vim-indent-object" })                          -- Text object for indented blocks
 use({ "vim-scripts/argtextobj.vim" })                               -- Text object for function arguments
-use({ "tommcdo/vim-exchange" })                                     -- Easy text swapping operator: cx{motion} and .
+use({ "gbprod/substitute.nvim", config=setup("substitute") })       -- Easy subsituting and swapping
 use({ "andymass/vim-matchup" })                                     -- Highlight, navigate and operate on sets of matching text. E.g. if-then-else
 use({ "godlygeek/tabular" })                                        -- Tabularizing text, e.g. on '=' char with :Tab/=
 use({ "mechatroner/rainbow_csv" })                                  -- Visualizing and querying CSV files
@@ -69,9 +69,9 @@ use({ "windwp/nvim-autopairs", config=setup("autopairs") })         -- Auto-inse
 use({ "unblevable/quick-scope", config=setup("quickscope") })       -- Mark jump points for f or F
 use({ "chrisbra/Colorizer"})                                        -- Colorize W3 colors, X11 color names, and hex color codes. :ColorToggle
 use({ "folke/todo-comments.nvim", config=setup("todo_comments") })  -- Highlights TODO, FIXME, WARNING, ... Requires :TSInstall comment   
-use({ "vimwiki/vimwiki", config=setup("vimwiki") })                 -- To create a personal wiki (\ww to load the Index)
 use({ "tpope/vim-repeat" })                                         -- Allow repeating all commands in a map, not just the last command of that map.
 use({ "tpope/vim-fugitive" })                                       -- To interact with Git.
+use({ "tpope/vim-abolish"})                                         -- Advanced search/replace. E.g. :%Subvert/facilit{y,ies}/building{,s}/g
 use({ "mhinz/vim-signify" })                                        -- Show file changes in gutter. Works with git, mercurial,...
 use({ "sickill/vim-pasta" })                                        -- Paste (p/P) with indentation adjusted to surrounding code 
 use({ "wellle/targets.vim" })                                       -- More text objects, e.g. ia to select a single argument of a function
@@ -123,6 +123,18 @@ use({ "nvim-neo-tree/neo-tree.nvim", config=setup("neotree"),       -- File syst
         "kyazdani42/nvim-web-devicons", 
         "MunifTanjim/nui.nvim",
       } })
+
+use({"simrat39/rust-tools.nvim", config=setup("rusttools")})        -- Allows to have inlay hints in Rust
+use({"mfussenegger/nvim-dap"})                                      -- Debug Adaptor Protocol 
+use({"TimUntersberger/neogit", config=setup("neogit"),              -- Git functionality 
+     requires = {'nvim-lua/plenary.nvim',
+                 'sindrets/diffview.nvim'} })
+use({ "wikitopian/hardmode" })                                      -- Disable arrow keys
+
+-- use({"nvim-neorg/neorg", config=setup("neorg"),                     -- Org file support. E.g. GTD.
+--      after = {"nvim-treesitter"},
+--      requires = "nvim-lua/plenary.nvim" })
+
 
 end)
 

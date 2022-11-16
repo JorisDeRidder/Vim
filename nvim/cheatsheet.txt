@@ -18,13 +18,19 @@ Select Python class                                    | ac / ic
 
 ## Git
 Show git blame info                                    | :Git blame
-Show a diff                                            | :Git diff
+Open/close diff overview of all file changes           | :DiffviewOpen / DiffviewClose
+Open/close diff overview of previous commits           | :DiffviewFileHistory / DiffviewClose
 Show commit history of current git project             | :Commits
 Show commit history of current buffer                  | :BCommits
 
 ## Commenting
 Toggle comments over {motion}                          | gc{motion}
 Toggle comment for this line                           | gcc
+
+## Replacing/Substituting
+Replace {motion} selection with the last yank          | m{motion}  (dot-repeatable)
+Replace current line with the last yank                | mm         (dot-repeatable)
+Search and replace variations                          | %Subvert/facilit{y,ies}/building{,s}/g
 
 ## Swapping
 Select first part of the text to be swapped            | cx{motion}
@@ -64,7 +70,7 @@ Show error diagnostics                                 | <space-e>
 Format current buffer of Rust code                     | :RustFmt
 
 ## Navigation
-Move cursor to instance of 2-letter combo {xy}         | s{xy}
+Move cursor to instance of the letter {x}              | s{x}
 Move cursor to instance of {word}                      | S{word}
 Move current line to middle of screen                  | zz
 Move current line to top of screen                     | zt
@@ -86,18 +92,21 @@ Close quickfix window                                  | :cclose
 
 ## Leader commands
 Toggle terminal                                        | \\
-Search files                                           | \f
-Search recently opened files                           | \r
-Search text in current buffer                          | \s
-Search (grep) text in entire project                   | \g
+Toggle tagbar                                          | \b
 Search previously used command in normal mode          | \c
 Toggle error/warning diagnostics list                  | \e
+Search files                                           | \f
+Open Neogit overview                                   | \g
+Search in recent search history                        | \h
 Toggle references list of word under cursor            | \j
+Search recently visited projects                       | \p
+Toggle file tree                                       | \q
+Search recently opened files                           | \r
+Search text in current buffer                          | \s
 Search tags in current buffer                          | \t
 Search tags in entire project                          | \T
-Toggle file tree                                       | \q
-Toggle tagbar                                          | \b
-Search recently visited projects                       | \p
-Search in recent search history                        | \h
+Toggle word wrap in long lines                         | \w
 
+## Neogit commands
+Change fold level in Neogit                            | 1 2 3 or 4
 

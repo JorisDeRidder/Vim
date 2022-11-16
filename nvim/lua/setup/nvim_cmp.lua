@@ -59,14 +59,15 @@ cmp.setup {
     ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
     ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
     ["<C-y>"] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
-    ["<Esc>"] = cmp.mapping {
+    ["qq"] = cmp.mapping {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
+
     -- Accept currently selected item. If none selected, `select` first item.
     -- Set `select` to `false` to only confirm explicitly selected items.
     ["<CR>"] = cmp.mapping.confirm { select = true },
-    ["<Tab>"] = cmp.mapping(function(fallback)               -- Supertab inside a snippet
+    ["<Tab>"] = cmp.mapping(function(fallback)               -- SuperTab inside a snippet
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expandable() then
@@ -82,7 +83,7 @@ cmp.setup {
       "i",
       "s",
     }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
+    ["<S-Tab>"] = cmp.mapping(function(fallback)             -- SuperShiftTab inside a snippet.
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
@@ -95,6 +96,7 @@ cmp.setup {
       "s",
     }),
   },
+
   formatting = {
     fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
@@ -110,11 +112,11 @@ cmp.setup {
     end,
   },
   sources = {
-    { name = "nvim_lsp", keyword_length = 3 },
-    { name = "nvim_lsp_signature_help", keyword_length = 3 },
-    { name = "luasnip", keyword_length = 3 },     -- start completion only after at least 3 chars have been typed
-    { name = "buffer", keyword_length = 4 },      -- start completion only after at least 4 chars have been typed
-    { name = "path", keyword_length = 3 },
+    { name = "nvim_lsp", keyword_length = 5, max_item_count = 5 },
+    { name = "nvim_lsp_signature_help", keyword_length = 5 },
+    { name = "luasnip", keyword_length = 4 },                         -- start completion only after at least 3 chars have been typed
+    { name = "buffer", keyword_length = 5, max_item_count = 5 },      -- start completion only after at least 4 chars have been typed
+    { name = "path", keyword_length = 5 },
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
@@ -126,7 +128,7 @@ cmp.setup {
     },
   },
   experimental = {
-    ghost_text = false,
+    ghost_text = true,
     native_menu = false,
   },
 }

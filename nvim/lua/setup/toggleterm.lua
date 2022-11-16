@@ -2,7 +2,7 @@
 -- The regular terminal is horizontal one at the bottom of the screen
 
 require('toggleterm').setup({
-    size = 23,
+    size = 18,
     open_mapping = [[\\]],
     hide_numbers=true,
     shade_filetypes = {},

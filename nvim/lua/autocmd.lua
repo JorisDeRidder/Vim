@@ -20,3 +20,8 @@ vim.cmd("autocmd BufReadPost fugitive://* set bufhidden=delete")
 
 vim.cmd("autocmd BufReadPost fugitive://* set bufhidden=delete")
 
+
+-- Make sure that the HardMode plugin applies to disable the arrow keys
+
+vim.cmd("autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()")
+
