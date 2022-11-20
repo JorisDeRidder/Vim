@@ -124,17 +124,14 @@ use({ "nvim-neo-tree/neo-tree.nvim", config=setup("neotree"),       -- File syst
         "MunifTanjim/nui.nvim",
       } })
 
-use({"simrat39/rust-tools.nvim", config=setup("rusttools")})        -- Allows to have inlay hints in Rust
+use({"simrat39/rust-tools.nvim", config=setup("rusttools") })       -- Allows to have inlay hints in Rust
 use({"mfussenegger/nvim-dap"})                                      -- Debug Adaptor Protocol 
 use({"TimUntersberger/neogit", config=setup("neogit"),              -- Git functionality 
      requires = {'nvim-lua/plenary.nvim',
                  'sindrets/diffview.nvim'} })
 use({ "wikitopian/hardmode" })                                      -- Disable arrow keys
-
--- use({"nvim-neorg/neorg", config=setup("neorg"),                     -- Org file support. E.g. GTD.
---      after = {"nvim-treesitter"},
---      requires = "nvim-lua/plenary.nvim" })
-
+use({ "zane-/howdoi.nvim", config=setup("howdoi") })                -- Googling how to program...
+use({ "code-biscuits/nvim-biscuits", config=setup("biscuits") })    -- In-editor annotations after closing brackets
 
 end)
 

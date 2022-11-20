@@ -92,6 +92,7 @@ Close quickfix window                                  | :cclose
 
 ## Leader commands
 Toggle terminal                                        | \\
+Toggle annotations at end of tags/brackets/...         | \a
 Toggle tagbar                                          | \b
 Search previously used command in normal mode          | \c
 Toggle error/warning diagnostics list                  | \e
@@ -109,4 +110,11 @@ Toggle word wrap in long lines                         | \w
 
 ## Neogit commands
 Change fold level in Neogit                            | 1 2 3 or 4
+
+## Packer
+Take into account changes in the plugin configuration  | :PackerCompile
+Remove and disable any unused plugins                  | :PackerClean
+Clean, then install missing plugins                    | :PackerInstall
+Clean, then update and install plugins                 | :PackerUpdate
+First perform PackerUpdate, then PackerCompile         | :PackerSync
 

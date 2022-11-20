@@ -29,12 +29,13 @@ map('n', '<leader>9', '<Cmd>BufferGoto 9<CR>', opts)         -- Use \9 to switch
 
 -- Leader commands. Cf fzf.vim for many of the commands.
 --    \\ : Toggle a terminal   
+--    \a : Toggle in-editor annotations at closing tags/brackets/parentheses
 --    \b : Toggle Tag _B_ar
 --    \c : Search in recent vim _c_ommands. 
 --    \e : Toggle list error and warning diagnostics in this workspace
 --    \f : Find a _f_ile in current and sub-directories
 --    \g : Start up Neo_g_it
---    \h : show _h_istory of previous search results
+--    \h : show howdoi help on a query about programming
 --    \j : Toggle list of references to the word under the cursor
 --    \p : List recently visited projects
 --    \q : Toggle file tree
@@ -48,12 +49,13 @@ map('n', '<leader>9', '<Cmd>BufferGoto 9<CR>', opts)         -- Use \9 to switch
 
 local opts = { noremap = true }
 
+map('n', '<leader>a', '<Cmd>lua require("nvim-biscuits").toggle_biscuits()<CR>', opts)
 map('n', '<leader>b', '<Cmd>SymbolsOutline<cr>', opts)
 map('n', '<leader>c', '<Cmd>lua require("telescope.builtin").command_history()<CR>', opts)
 map('n', '<leader>e', '<Cmd>TroubleToggle workspace_diagnostics<CR>', opts)
 map('n', '<leader>f', '<Cmd>lua require("telescope.builtin").find_files()<CR>', opts)
 map('n', '<leader>g', '<Cmd>Neogit<CR>', opts)
-map('n', '<leader>h', '<Cmd>lua require("telescope.builtin").search_history()<CR>', opts)
+map('n', '<leader>h', '<Cmd>Telescope howdoi<CR>', opts)
 map('n', '<leader>j', '<Cmd>TroubleToggle lsp_references<CR>', opts)
 map('n', '<leader>p', '<Cmd>Telescope projects<CR>', opts)
 map('n', '<leader>q', '<Cmd>Neotree toggle<CR>', opts)
